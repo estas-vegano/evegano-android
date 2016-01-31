@@ -1,9 +1,9 @@
 package com.estasvegano.android.estasvegano.data.web;
 
-import com.estasvegano.android.estasvegano.model.Category;
-import com.estasvegano.android.estasvegano.model.Complain;
-import com.estasvegano.android.estasvegano.model.Photo;
-import com.estasvegano.android.estasvegano.model.Product;
+import com.estasvegano.android.estasvegano.entity.Category;
+import com.estasvegano.android.estasvegano.entity.Complain;
+import com.estasvegano.android.estasvegano.entity.Photo;
+import com.estasvegano.android.estasvegano.entity.Product;
 import com.squareup.okhttp.RequestBody;
 
 import java.util.Map;
@@ -16,9 +16,7 @@ import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
-/**
- * Created by rstk on 1/13/16.
- */
+
 public interface EVeganoApi
 {
     @GET(UrlConstants.CHECK)
@@ -29,10 +27,16 @@ public interface EVeganoApi
 
     @Multipart
     @POST(UrlConstants.ADD_IMAGE)
-    rx.Observable<Photo> uploadPhoto(@Path(UrlConstants.ID_REPLACEMENT) long productId, @Part("image.jpg") RequestBody photo);
+    rx.Observable<Photo> uploadPhoto(
+            @Path(UrlConstants.ID_REPLACEMENT) long productId,
+            @Part("image.jpg") RequestBody photo
+    );
 
     @POST(UrlConstants.COMPLAIN)
-    rx.Observable<Void> complain(@Body Complain complain);
+    rx.Observable<Void> complain(
+            @Path(UrlConstants.ID_REPLACEMENT) long productId,
+            @Body Complain complain
+    );
 
     @GET(UrlConstants.CATEGORIES)
     rx.Observable<Map<String, String>> getTopCategories();

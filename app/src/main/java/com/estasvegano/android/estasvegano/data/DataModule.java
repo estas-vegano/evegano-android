@@ -5,13 +5,9 @@ import android.content.Context;
 import com.estasvegano.android.estasvegano.NetworkAvailabilityCheckerImpl;
 import com.estasvegano.android.estasvegano.data.web.EVeganoApi;
 import com.estasvegano.android.estasvegano.data.web.NetworkAvailabilityChecker;
-import com.estasvegano.android.estasvegano.data.web.UppercaseEnumGsonAdapter;
 import com.estasvegano.android.estasvegano.data.web.UrlConstants;
 import com.estasvegano.android.estasvegano.data.web.interceptor.LocalizationInterceptor;
 import com.estasvegano.android.estasvegano.data.web.interceptor.LoggingInterceptor;
-import com.estasvegano.android.estasvegano.model.ProductType;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -20,13 +16,11 @@ import java.util.logging.Logger;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.GsonConverterFactory;
+import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
 
-/**
- * Created by rstk on 1/13/16.
- */
+
 @Module
 public class DataModule
 {
@@ -50,18 +44,9 @@ public class DataModule
     }
 
     @Provides
-    Gson getGson()
-    {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ProductType.class, new UppercaseEnumGsonAdapter())
-                .create();
-        return gson;
-    }
-
-    @Provides
-    EVeganoApi getWebApi(Gson gson,
-                         LoggingInterceptor loggingInterceptor,
-                         LocalizationInterceptor localizationInterceptor)
+    EVeganoApi getWebApi(
+            LoggingInterceptor loggingInterceptor,
+            LocalizationInterceptor localizationInterceptor)
     {
         OkHttpClient client = new OkHttpClient();
         List<Interceptor> interceptors = client.interceptors();
@@ -71,7 +56,7 @@ public class DataModule
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .baseUrl(UrlConstants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 

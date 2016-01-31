@@ -1,5 +1,7 @@
 package com.estasvegano.android.estasvegano.data.web.interceptor;
 
+import android.support.annotation.NonNull;
+
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -7,20 +9,20 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-/**
- * Created by rstk on 1/13/16.
- */
+
 public class LoggingInterceptor implements Interceptor
 {
+    @NonNull
     private final Logger logger;
 
-    public LoggingInterceptor(Logger logger)
+    public LoggingInterceptor(@NonNull Logger logger)
     {
         this.logger = logger;
     }
 
     @Override
-    public Response intercept(Interceptor.Chain chain) throws IOException
+    @NonNull
+    public Response intercept(@NonNull Interceptor.Chain chain) throws IOException
     {
         Request request = chain.request();
 

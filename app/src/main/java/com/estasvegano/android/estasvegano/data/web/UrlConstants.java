@@ -1,8 +1,6 @@
 package com.estasvegano.android.estasvegano.data.web;
 
-/**
- * Created by rstk on 1/13/16.
- */
+
 public class UrlConstants
 {
     public static final String ID_REPLACEMENT = "id";
