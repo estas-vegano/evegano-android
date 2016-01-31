@@ -4,4 +4,16 @@
     <string name="title_activity_scan">Scan</string>
     <string name="title_activity_product">Product</string>
     <string name="scan_button">Scan</string>
+    <string name="no_product_dialog_title">No product found =(</string>
+    <string name="no_product_dialog_message">Would you like to add it?</string>
+    <string name="permision_camera_denied_dialog_title">Nope</string>
+    <string name="permision_camera_denied_dialog_message">How can we read codes without camera, stupid?</string>
+    <string name="permision_denied_dialog_positive">Ok, I will add it</string>
+    <string name="permision_camera_rationale_dialog_title">We really need camera</string>
+    <string name="permision_camera_rationale_dialog_message">Please, add it</string>
+    <string name="permision_internet_rationale_dialog_title">We really need internet</string>
+    <string name="permision_internet_rationale_dialog_message">Please, add it</string>
+    <string name="permision_internet_denied_dialog_title">Nope</string>
+    <string name="permision_internet_denied_dialog_message">How can we check codes without internet, stupid?</string>
+    <string name="error_dialog_title">Error</string>
 </resources>

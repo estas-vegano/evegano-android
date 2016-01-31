@@ -1,6 +1,7 @@
 package com.estasvegano.android.estasvegano.data;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.estasvegano.android.estasvegano.NetworkAvailabilityCheckerImpl;
 import com.estasvegano.android.estasvegano.data.web.EVeganoApi;
@@ -14,40 +15,48 @@ import com.squareup.okhttp.OkHttpClient;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
 
-
 @Module
-public class DataModule
-{
+public class DataModule {
+    @NonNull
     private final Context context;
 
-    public DataModule(Context context)
-    {
+    public DataModule(@NonNull Context context) {
         this.context = context;
     }
 
     @Provides
-    NetworkAvailabilityChecker getNetworkAbilityChecker()
-    {
+    @NonNull
+    NetworkAvailabilityChecker getNetworkAbilityChecker() {
         return new NetworkAvailabilityCheckerImpl(context);
     }
 
     @Provides
-    LoggingInterceptor getLoggingInterceptor()
-    {
+    @NonNull
+    LoggingInterceptor getLoggingInterceptor() {
         return new LoggingInterceptor(Logger.getLogger("EVEGANO DATA"));
     }
 
     @Provides
+    @NonNull
+    LocalizationInterceptor getLocalizationInterceptor() {
+        return new LocalizationInterceptor();
+    }
+
+    @Singleton
+    @Provides
+    @NonNull
     EVeganoApi getWebApi(
-            LoggingInterceptor loggingInterceptor,
-            LocalizationInterceptor localizationInterceptor)
-    {
+            @NonNull LoggingInterceptor loggingInterceptor,
+            @NonNull LocalizationInterceptor localizationInterceptor
+    ) {
         OkHttpClient client = new OkHttpClient();
         List<Interceptor> interceptors = client.interceptors();
         interceptors.add(localizationInterceptor);

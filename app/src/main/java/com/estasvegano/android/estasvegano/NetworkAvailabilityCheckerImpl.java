@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.estasvegano.android.estasvegano.data.web.NetworkAvailabilityChecker;
 
-
 public class NetworkAvailabilityCheckerImpl implements NetworkAvailabilityChecker {
     @NonNull
     private final Context context;

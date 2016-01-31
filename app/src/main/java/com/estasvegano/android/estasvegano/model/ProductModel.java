@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 
+import com.estasvegano.android.estasvegano.data.ErrorParser;
 import com.estasvegano.android.estasvegano.data.web.EVeganoApi;
-import com.estasvegano.android.estasvegano.entity.Category;
 import com.estasvegano.android.estasvegano.entity.Complain;
 import com.estasvegano.android.estasvegano.entity.Photo;
 import com.estasvegano.android.estasvegano.entity.Product;
@@ -13,7 +13,6 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Map;
 
 // TODO: add caching
 public class ProductModel {
@@ -21,25 +20,35 @@ public class ProductModel {
     @NonNull
     private final EVeganoApi api;
 
-    public ProductModel(@NonNull EVeganoApi api) {
+    @NonNull
+    private final ErrorParser errorParser;
+
+    public ProductModel(@NonNull EVeganoApi api, @NonNull ErrorParser errorParser) {
         this.api = api;
+        this.errorParser = errorParser;
     }
 
     @CheckResult
     @NonNull
-    public rx.Observable<Product> checkCode(String code, String codeType) {
-        return api.checkCode(code, codeType);
+    public rx.Single<Product> checkCode(String code, String codeType) {
+        return api.checkCode(code, codeType)
+                .onErrorReturn(error -> {
+                    if (errorParser.getErrorStatus(error) == 404) {
+                        return null;
+                    }
+                    throw new IllegalArgumentException(error);
+                });
     }
 
     @CheckResult
     @NonNull
-    public rx.Observable<Product> addProduct(Product product) {
+    public rx.Single<Product> addProduct(Product product) {
         return api.addProduct(product);
     }
 
     @CheckResult
     @NonNull
-    public rx.Observable<Photo> uploadPhoto(long productId, Bitmap image) {
+    public rx.Single<Photo> uploadPhoto(long productId, Bitmap image) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] imageBytes = stream.toByteArray();
@@ -49,19 +58,7 @@ public class ProductModel {
 
     @CheckResult
     @NonNull
-    public rx.Observable<Void> complain(long productId, Complain complain) {
+    public rx.Single<Void> complain(long productId, Complain complain) {
         return api.complain(productId, complain);
-    }
-
-    @CheckResult
-    @NonNull
-    public rx.Observable<Map<String, String>> getTopCategories() {
-        return api.getTopCategories();
-    }
-
-    @CheckResult
-    @NonNull
-    public rx.Observable<Category> getSubCategory(long categoryId) {
-        return api.getSubCategory(categoryId);
     }
 }
