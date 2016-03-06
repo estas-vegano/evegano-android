@@ -13,6 +13,10 @@ import auto.parcel.AutoParcel;
 @JsonDeserialize(builder = Product.Builder.class)
 public abstract class Product implements Parcelable {
 
+    public static Builder builder() {
+        return new AutoParcel_Product.Builder();
+    }
+
     @JsonProperty("id")
     public abstract long id();
 

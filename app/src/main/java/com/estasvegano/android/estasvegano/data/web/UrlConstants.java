@@ -1,8 +1,8 @@
 package com.estasvegano.android.estasvegano.data.web;
 
 
-public class UrlConstants
-{
+public class UrlConstants {
+
     public static final String ID_REPLACEMENT = "id";
     public static final String BASE_URL = "http://evegano.free-node.ru/";
     public static final String CHECK = "/api/v1.0/check";

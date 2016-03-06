@@ -1,5 +1,6 @@
 package com.estasvegano.android.estasvegano.entity;
 
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -10,7 +11,7 @@ import auto.parcel.AutoParcel;
 
 @AutoParcel
 @JsonDeserialize(builder = AutoParcel_Category.Builder.class)
-public abstract class Category {
+public abstract class Category implements Parcelable {
 
     @NonNull
     public static Builder builder() {

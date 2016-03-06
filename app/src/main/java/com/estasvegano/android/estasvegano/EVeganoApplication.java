@@ -18,6 +18,7 @@ public class EVeganoApplication extends Application {
         component = DaggerAppComponent
                 .builder()
                 .dataModule(new DataModule(this))
+                .appModule(new AppModule(this))
                 .build();
     }
 

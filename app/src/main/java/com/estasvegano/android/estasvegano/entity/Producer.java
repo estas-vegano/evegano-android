@@ -1,5 +1,6 @@
 package com.estasvegano.android.estasvegano.entity;
 
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,7 +10,11 @@ import auto.parcel.AutoParcel;
 
 @AutoParcel
 @JsonDeserialize(builder = Producer.Builder.class)
-public abstract class Producer {
+public abstract class Producer implements Parcelable {
+
+    public static Builder builder() {
+        return new AutoParcel_Producer.Builder();
+    }
 
     @JsonProperty("id")
     public abstract long id();
