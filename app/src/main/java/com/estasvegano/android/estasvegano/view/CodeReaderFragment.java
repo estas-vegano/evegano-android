@@ -137,23 +137,14 @@ public class CodeReaderFragment extends BaseFragment
 
     @Override
     public void onShowPermissionRationale(
-            List<String> permissionList,
-            RuntimePermissionRequest permissionRequest
+            @NonNull List<String> permissionList,
+            @NonNull RuntimePermissionRequest permissionRequest
     ) {
         for (String permission : permissionList) {
             switch (permission) {
                 case Manifest.permission.CAMERA:
                     cameraPermissionDialogShowing = true;
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.permision_camera_rationale_dialog_title)
-                            .setMessage(R.string.permision_camera_rationale_dialog_message)
-                            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                                cameraPermissionDialogShowing = false;
-                                permissionRequest.retry();
-                            })
-                            .setOnDismissListener(dialog -> cameraPermissionDialogShowing = false)
-                            .create()
-                            .show();
+                    showCameraPermissionRationaleDialog(permissionRequest);
                     break;
                 default:
                     throw new IllegalStateException("Invalid permission " + permission);
@@ -162,7 +153,7 @@ public class CodeReaderFragment extends BaseFragment
     }
 
     @Override
-    public void onPermissionDenied(List<DeniedPermission> deniedPermissionList) {
+    public void onPermissionDenied(@NonNull List<DeniedPermission> deniedPermissionList) {
         for (DeniedPermission permission : deniedPermissionList) {
             if (!permission.isNeverAskAgainChecked()) {
                 continue;
@@ -171,25 +162,46 @@ public class CodeReaderFragment extends BaseFragment
                 case Manifest.permission.CAMERA:
                     cameraPermissionDialogShowing = true;
                     scannerView.stopCamera();
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.permision_camera_denied_dialog_title)
-                            .setMessage(R.string.permision_camera_denied_dialog_message)
-                            .setPositiveButton(R.string.permision_denied_dialog_positive, (dialog, which) -> {
-                                cameraPermissionDialogShowing = false;
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                            })
-                            .setOnDismissListener(dialog -> cameraPermissionDialogShowing = false)
-                            .create()
-                            .show();
+                    showCameraPermissionDeniedDialog();
                     break;
                 default:
                     throw new IllegalStateException("Invalid permission " + permission.getPermission());
             }
         }
+    }
+
+    private void showCameraPermissionRationaleDialog(@NonNull RuntimePermissionRequest permissionRequest) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.permision_camera_rationale_dialog_title)
+                .setMessage(R.string.permision_camera_rationale_dialog_message)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    cameraPermissionDialogShowing = false;
+                    permissionRequest.retry();
+                })
+                .setOnDismissListener(dialog -> cameraPermissionDialogShowing = false)
+                .create()
+                .show();
+    }
+
+    private void showCameraPermissionDeniedDialog() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.permision_camera_denied_dialog_title)
+                .setMessage(R.string.permision_camera_denied_dialog_message)
+                .setPositiveButton(R.string.permision_denied_dialog_positive, (dialog, which) -> {
+                    goToPermissionSettings();
+                })
+                .setOnDismissListener(dialog -> cameraPermissionDialogShowing = false)
+                .create()
+                .show();
+    }
+
+    private void goToPermissionSettings() {
+        cameraPermissionDialogShowing = false;
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     public interface OnCodeReadedListener {
