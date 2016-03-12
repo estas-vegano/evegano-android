@@ -6,13 +6,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.entity.Product;
+import com.estasvegano.android.estasvegano.view.ComplainProductDialogFragment.ComplainDialogListener;
+import com.estasvegano.android.estasvegano.view.ViewProductFragment.ViewProductFragmentListener;
 
-public class ViewProductActivity extends AppCompatActivity {
+import rx.exceptions.CompositeException;
+
+public class ViewProductActivity extends AppCompatActivity
+        implements ComplainDialogListener, ViewProductFragmentListener {
+
+    public static final String COMPLAIN_DIALOG_FRAGMENT_KEY = "COMPLAIN_DIALOG_FRAGMENT";
 
     public static final String PRODUCT_EXTRA_KEY = "PRODUCT_EXTRA";
 
@@ -39,14 +47,59 @@ public class ViewProductActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_view_product);
 
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        ViewProductFragment fragment = (ViewProductFragment) getSupportFragmentManager().findFragmentById(R.id.container);
         if (fragment == null) {
             fragment = new ViewProductFragmentBuilder(product).build();
-            fragment.setRetainInstance(true);
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, fragment)
                     .commit();
         }
+        fragment.setListener(this);
+    }
+
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (fragment instanceof ComplainProductDialogFragment) {
+            ((ComplainProductDialogFragment) fragment).setListener(this);
+        }
+    }
+
+    @Override
+    public void onComplainClicked(@NonNull Product product) {
+        if (getFragmentManager().findFragmentByTag(COMPLAIN_DIALOG_FRAGMENT_KEY) != null) {
+            return;
+        }
+
+        ComplainProductDialogFragment complainProductDialogFragment =
+                new ComplainProductDialogFragmentBuilder(product).build();
+        complainProductDialogFragment.show(getSupportFragmentManager(), COMPLAIN_DIALOG_FRAGMENT_KEY);
+    }
+
+    @Override
+    public void onComplainSuccess() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.succes_dialog_title)
+                .setMessage(R.string.complain_succes_dialog_message)
+                .setPositiveButton(android.R.string.ok, null)
+                .create()
+                .show();
+    }
+
+    @Override
+    public void onComplainError(@NonNull Throwable throwable) {
+        String message;
+        if (throwable instanceof CompositeException) {
+            message = ((CompositeException) throwable).getExceptions().get(0).getLocalizedMessage();
+        } else {
+            message = throwable.getLocalizedMessage();
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.error_dialog_title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .create()
+                .show();
     }
 }

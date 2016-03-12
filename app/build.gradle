@@ -46,6 +46,7 @@ dependencies {
 
     compile 'me.dm7.barcodescanner:zbar:1.8.4'
 
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'io.reactivex:rxandroid:1.0.1'
 
     compile 'com.fasterxml.jackson.core:jackson-core:2.6.5'

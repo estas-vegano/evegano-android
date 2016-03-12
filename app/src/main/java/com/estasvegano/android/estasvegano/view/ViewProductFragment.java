@@ -38,13 +38,39 @@ public class ViewProductFragment extends BaseFragment {
     @Bind(R.id.f_view_product_image)
     ImageView productImageView;
 
-    @Bind(R.id.f_view_product_description)
+    @Bind(R.id.f_view_product_type_image)
+    ImageView productTypeImageView;
+
+    @Bind(R.id.f_view_product_ethical_image)
+    ImageView productEthicalImageView;
+
+    @Bind(R.id.f_view_product_description_label)
     TextView descriptionLabel;
 
     @SuppressWarnings("NullableProblems") // @Arg
     @Arg
     @NonNull
     Product product;
+
+    @Nullable
+    private ViewProductFragmentListener listener;
+
+    private static int getTypeImage(@NonNull Product product) {
+        switch (product.info()) {
+            case VEGAN:
+                return R.drawable.type_vegan;
+            case LACTOVEGETARIAN:
+                return R.drawable.type_milk;
+            case VEGETARIAN:
+                return R.drawable.type_egg;
+            case FISH:
+                return R.drawable.type_fish;
+            case MEAT:
+                return R.drawable.type_meat;
+            default:
+                throw new IllegalArgumentException("Invalid product type: " + product.info());
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,9 +107,20 @@ public class ViewProductFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        listener = null;
+    }
+
     private void bindProduct() {
         setTitle(product.title());
         descriptionLabel.setText(product.producer().title() + "\n" + product.category().title());
+        productTypeImageView.setImageResource(getTypeImage(product));
+        loadAvatar();
+    }
+
+    private void loadAvatar() {
         int borderColor = ContextCompat.getColor(getActivity(), R.color.accent);
         int borderWidth = getResources().getDimensionPixelSize(R.dimen.border_width);
         picasso.load(product.photo())
@@ -92,8 +129,18 @@ public class ViewProductFragment extends BaseFragment {
                 .into(productImageView);
     }
 
-    @OnClick(R.id.f_view_product_complain)
+    @OnClick(R.id.f_view_product_complain_button)
     void onComplainClicked() {
+        if (listener != null) {
+            listener.onComplainClicked(product);
+        }
+    }
 
+    public void setListener(@Nullable ViewProductFragmentListener listener) {
+        this.listener = listener;
+    }
+
+    public interface ViewProductFragmentListener {
+        void onComplainClicked(@NonNull Product product);
     }
 }

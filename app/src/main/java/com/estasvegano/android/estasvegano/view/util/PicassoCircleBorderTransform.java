@@ -45,7 +45,7 @@ public class PicassoCircleBorderTransform implements Transformation {
         paint.setStrokeWidth(borderWidth);
         paint.setStyle(Paint.Style.STROKE);
 
-        canvas.drawCircle(r, r, r, paint);
+        canvas.drawCircle(r, r, r - borderWidth / 2, paint);
 
         squaredBitmap.recycle();
         return bitmap;

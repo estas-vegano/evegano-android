@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.estasvegano.android.estasvegano.data.DataModule;
 import com.estasvegano.android.estasvegano.model.ModelModule;
 import com.estasvegano.android.estasvegano.view.CodeReaderFragment;
+import com.estasvegano.android.estasvegano.view.ComplainProductDialogFragment;
 import com.estasvegano.android.estasvegano.view.ViewProductFragment;
 
 import javax.inject.Singleton;
@@ -18,4 +19,6 @@ public interface AppComponent {
     void inject(@NonNull CodeReaderFragment codeReaderFragment);
 
     void inject(@NonNull ViewProductFragment viewProductFragment);
+
+    void inject(@NonNull ComplainProductDialogFragment complainProductDialogFragment);
 }
