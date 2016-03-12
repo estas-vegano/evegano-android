@@ -14,6 +14,8 @@ import com.estasvegano.android.estasvegano.entity.Producer;
 import com.estasvegano.android.estasvegano.entity.Product;
 import com.estasvegano.android.estasvegano.entity.ProductType;
 
+import timber.log.Timber;
+
 public class CodeReaderActivity extends AppCompatActivity implements CodeReaderFragment.OnCodeReadedListener {
 
     public static final String ADD_DIALOG_FRAGMENT_KEY = "ADD_DIALOG_FRAGMENT";
@@ -40,11 +42,13 @@ public class CodeReaderActivity extends AppCompatActivity implements CodeReaderF
 
     @Override
     public void onProductLoaded(@NonNull Product product) {
+        Timber.i("Going to view product activity with product: %s", product);
         startActivity(ViewProductActivity.getStartIntent(this, product));
     }
 
     @Override
     public void onNoSuchProduct() {
+        Timber.i("No product found");
         DialogFragment addFragment = (DialogFragment) getSupportFragmentManager()
                 .findFragmentByTag(ADD_DIALOG_FRAGMENT_KEY);
         if (addFragment != null) {
@@ -78,6 +82,7 @@ public class CodeReaderActivity extends AppCompatActivity implements CodeReaderF
                     .setTitle(R.string.no_product_dialog_title)
                     .setMessage(R.string.no_product_dialog_message)
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        Timber.i("Going to add product activity");
                         startActivity(ViewProductActivity.getStartIntent(getActivity(), product));
                     })
                     .setNegativeButton(android.R.string.no, null)

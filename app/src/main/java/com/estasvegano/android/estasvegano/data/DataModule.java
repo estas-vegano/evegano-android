@@ -13,7 +13,6 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.inject.Singleton;
 
@@ -22,6 +21,7 @@ import dagger.Provides;
 import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
+import timber.log.Timber;
 
 @Module
 public class DataModule {
@@ -41,7 +41,7 @@ public class DataModule {
     @Provides
     @NonNull
     LoggingInterceptor getLoggingInterceptor() {
-        return new LoggingInterceptor(Logger.getLogger("EVEGANO DATA"));
+        return new LoggingInterceptor(Timber::i);
     }
 
     @Provides

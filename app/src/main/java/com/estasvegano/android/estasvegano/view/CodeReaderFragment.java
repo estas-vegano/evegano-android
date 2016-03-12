@@ -33,6 +33,7 @@ import me.dm7.barcodescanner.zbar.ZBarScannerView;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class CodeReaderFragment extends BaseFragment
         implements ZBarScannerView.ResultHandler, RuntimePermissionListener {
@@ -93,14 +94,25 @@ public class CodeReaderFragment extends BaseFragment
 
     @AskPermission(Manifest.permission.CAMERA)
     private void startCodeScanner() {
+        Timber.i("Start scanning");
         scannerView.setResultHandler(this);
         scannerView.startCamera();
     }
 
     @Override
     public void handleResult(@NonNull Result rawResult) {
+        Timber.i("New scan result: %d %s %s",
+                rawResult.getBarcodeFormat().getId(),
+                rawResult.getBarcodeFormat().getName(),
+                rawResult.getContents()
+        );
         checkProduct(rawResult.getContents(), rawResult.getBarcodeFormat().getName());
-        new Handler().postDelayed(() -> scannerView.resumeCameraPreview(this), 3000L);
+
+        new Handler().postDelayed(() -> {
+                    Timber.i("Resume scanning");
+                    scannerView.resumeCameraPreview(this);
+                },
+                3000L);
     }
 
     @AskPermission(Manifest.permission.INTERNET)
@@ -113,6 +125,7 @@ public class CodeReaderFragment extends BaseFragment
     }
 
     private void productLoaded(@Nullable Product product) {
+        Timber.i("Product loaded: %s", product);
         if (listener != null) {
             if (product != null) {
                 listener.onProductLoaded(product);

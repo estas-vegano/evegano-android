@@ -41,6 +41,7 @@ public class ViewProductFragment extends BaseFragment {
     @Bind(R.id.f_view_product_description)
     TextView descriptionLabel;
 
+    @SuppressWarnings("NullableProblems") // @Arg
     @Arg
     @NonNull
     Product product;
@@ -64,8 +65,10 @@ public class ViewProductFragment extends BaseFragment {
         ButterKnife.bind(this, v);
         FragmentArgs.inject(this);
 
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+        appCompatActivity.setSupportActionBar(toolbar);
+        //noinspection ConstantConditions can not be null here
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         bindProduct();
 
