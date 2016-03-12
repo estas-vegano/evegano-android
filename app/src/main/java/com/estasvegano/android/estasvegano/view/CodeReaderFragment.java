@@ -78,6 +78,12 @@ public class CodeReaderFragment extends BaseFragment
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        listener = null;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -109,22 +115,26 @@ public class CodeReaderFragment extends BaseFragment
         checkProduct(rawResult.getContents(), rawResult.getBarcodeFormat().getName());
 
         new Handler().postDelayed(() -> {
-                    Timber.i("Resume scanning");
-                    scannerView.resumeCameraPreview(this);
+                    if (isAdded()) {
+                        Timber.i("Resume scanning");
+                        scannerView.resumeCameraPreview(this);
+                    }
                 },
                 3000L);
     }
 
     @AskPermission(Manifest.permission.INTERNET)
     private void checkProduct(String code, String format) {
+        showLoadingDialog();
         Subscription subscription = productModel.checkCode(code, format)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::productLoaded, this::onBaseError);
-        unsubscriveOnDestroyView(subscription);
+        unsubscribeOnDestroyView(subscription);
     }
 
     private void productLoaded(@Nullable Product product) {
+        hideLoadingDialog();
         Timber.i("Product loaded: %s", product);
         if (listener != null) {
             if (product != null) {

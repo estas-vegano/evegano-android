@@ -31,7 +31,6 @@ public class CodeReaderActivity extends AppCompatActivity implements CodeReaderF
 
         if (fragment == null) {
             fragment = new CodeReaderFragment();
-            fragment.setRetainInstance(true);
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, fragment)

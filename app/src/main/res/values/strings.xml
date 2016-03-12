@@ -16,4 +16,10 @@
     <string name="permision_internet_denied_dialog_message">How can we check codes without internet, stupid?</string>
     <string name="error_dialog_title">Error</string>
     <string name="view_product_complain_button">Complain</string>
+    <string name="complain_product_dialog_title">Please, describe what is wrong with this product.</string>
+    <string name="loading_dialog_message">Please, wait...</string>
+    <string name="send">Send</string>
+    <string name="cancel">Cancel</string>
+    <string name="succes_dialog_title">Success!</string>
+    <string name="complain_succes_dialog_message">Thanks! We will moderate this product based on your complain.</string>
 </resources>

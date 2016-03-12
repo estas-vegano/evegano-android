@@ -1,9 +1,11 @@
 package com.estasvegano.android.estasvegano.view;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -24,6 +26,9 @@ public class BaseFragment extends Fragment {
     private CompositeSubscription compositeSubcscription;
 
     @Nullable
+    private ProgressDialog loadingDialog;
+
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         compositeSubcscription = new CompositeSubscription();
@@ -37,10 +42,12 @@ public class BaseFragment extends Fragment {
     }
 
     protected void setTitle(@NonNull String title) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+        ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        assert supportActionBar != null;
+        supportActionBar.setTitle(title);
     }
 
-    protected void unsubscriveOnDestroyView(Subscription subscription) {
+    protected void unsubscribeOnDestroyView(Subscription subscription) {
         compositeSubcscription.add(subscription);
     }
 
@@ -49,6 +56,8 @@ public class BaseFragment extends Fragment {
     }
 
     protected void onBaseError(@NonNull Throwable throwable) {
+        hideLoadingDialog();
+
         String message;
         if (throwable instanceof CompositeException) {
             message = ((CompositeException) throwable).getExceptions().get(0).getLocalizedMessage();
@@ -61,5 +70,21 @@ public class BaseFragment extends Fragment {
                 .setPositiveButton(android.R.string.ok, null)
                 .create()
                 .show();
+    }
+
+    protected void showLoadingDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            return;
+        }
+        loadingDialog = new ProgressDialog(getActivity());
+        loadingDialog.setMessage(getString(R.string.loading_dialog_message));
+        loadingDialog.show();
+    }
+
+    protected void hideLoadingDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
+        }
     }
 }

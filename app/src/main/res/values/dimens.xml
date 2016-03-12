@@ -11,4 +11,5 @@
     <dimen name="picture_small_size">16dp</dimen>
     <dimen name="picture_bottom_margin">64dp</dimen>
     <dimen name="border_width">2dp</dimen>
+    <dimen name="base_corner">2dp</dimen>
 </resources>
