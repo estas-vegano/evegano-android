@@ -26,6 +26,7 @@ public class ProducerAdapter extends ArrayAdapter<String> implements Filterable 
     private final ProgressBar progressBar;
     @NonNull
     private List<Producer> items = new ArrayList<>(0);
+
     @NonNull
     private final Filter filter = new Filter() {
         @Override
@@ -79,6 +80,16 @@ public class ProducerAdapter extends ArrayAdapter<String> implements Filterable 
     @Override
     public String getItem(int position) {
         return items.get(position).title();
+    }
+
+    @Nullable
+    public Producer getProducerByTitleIfExists(@NonNull String title) {
+        for (Producer p : items) {
+            if (p.title().equals(title)) {
+                return p;
+            }
+        }
+        return null;
     }
 
     @Override
