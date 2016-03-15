@@ -7,7 +7,7 @@ import com.estasvegano.android.estasvegano.data.ErrorParser;
 import com.estasvegano.android.estasvegano.data.web.EVeganoApi;
 import com.estasvegano.android.estasvegano.entity.Category;
 
-import java.util.Map;
+import java.util.List;
 
 public class CategoryModel {
 
@@ -24,13 +24,13 @@ public class CategoryModel {
 
     @CheckResult
     @NonNull
-    public rx.Single<Map<String, String>> getTopCategories() {
+    public rx.Single<List<Category>> getTopCategories() {
         return api.getTopCategories();
     }
 
     @CheckResult
     @NonNull
-    public rx.Single<Category> getSubCategory(long categoryId) {
-        return api.getSubCategory(categoryId);
+    public rx.Single<List<Category>> getSubCategory(long categoryId) {
+        return api.getSubCategories(categoryId);
     }
 }

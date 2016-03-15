@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 
 import com.estasvegano.android.estasvegano.data.ErrorParser;
 import com.estasvegano.android.estasvegano.data.web.EVeganoApi;
+import com.estasvegano.android.estasvegano.data.web.request.AddProductRequest;
 import com.estasvegano.android.estasvegano.entity.Complain;
 import com.estasvegano.android.estasvegano.entity.Photo;
 import com.estasvegano.android.estasvegano.entity.Product;
+import com.estasvegano.android.estasvegano.entity.ProductType;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 
@@ -42,8 +44,17 @@ public class ProductModel {
 
     @CheckResult
     @NonNull
-    public rx.Single<Product> addProduct(Product product) {
-        return api.addProduct(product);
+    public rx.Single<Product> addProduct(
+            @NonNull String title,
+            @NonNull ProductType type,
+            @NonNull String categoryId,
+            @NonNull String producerId) {
+        return api.addProduct(AddProductRequest.builder()
+                .title(title)
+                .info(type)
+                .categoryId(categoryId)
+                .producerId(producerId)
+                .build());
     }
 
     @CheckResult

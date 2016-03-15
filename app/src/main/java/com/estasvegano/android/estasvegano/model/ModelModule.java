@@ -18,4 +18,16 @@ public class ModelModule {
     ProductModel getProductModel(@NonNull EVeganoApi api, @NonNull ErrorParser errorParser) {
         return new ProductModel(api, errorParser);
     }
+
+    @Provides
+    @NonNull
+    CategoryModel getCategoryModel(@NonNull EVeganoApi api, @NonNull ErrorParser errorParser) {
+        return new CategoryModel(api, errorParser);
+    }
+
+    @Provides
+    @NonNull
+    ProducerModel getProducerModel(@NonNull EVeganoApi api, @NonNull ErrorParser errorParser) {
+        return new ProducerModel(api, errorParser);
+    }
 }

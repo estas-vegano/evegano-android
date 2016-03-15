@@ -9,6 +9,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,9 @@ public class CodeReaderFragment extends BaseFragment
     @Bind(R.id.reader_scanner)
     ZBarScannerView scannerView;
 
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
     @Nullable
     private OnCodeReadedListener listener;
 
@@ -68,6 +73,8 @@ public class CodeReaderFragment extends BaseFragment
         ButterKnife.bind(this, view);
         scannerView.setAutoFocus(true);
 
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
         return view;
     }
 
@@ -75,12 +82,6 @@ public class CodeReaderFragment extends BaseFragment
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        listener = null;
     }
 
     @Override
@@ -123,26 +124,24 @@ public class CodeReaderFragment extends BaseFragment
                 3000L);
     }
 
-    @AskPermission(Manifest.permission.INTERNET)
-    private void checkProduct(String code, String format) {
+    private void checkProduct(@NonNull String code, @NonNull String format) {
         showLoadingDialog();
         Subscription subscription = productModel.checkCode(code, format)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::productLoaded, this::onBaseError);
+                .subscribe(product -> {
+                            hideLoadingDialog();
+                            Timber.i("Product loaded: %s", product);
+                            if (listener != null) {
+                                if (product != null) {
+                                    listener.onProductLoaded(product);
+                                } else {
+                                    listener.onNoSuchProduct(code, format);
+                                }
+                            }
+                        },
+                        this::onBaseError);
         unsubscribeOnDestroyView(subscription);
-    }
-
-    private void productLoaded(@Nullable Product product) {
-        hideLoadingDialog();
-        Timber.i("Product loaded: %s", product);
-        if (listener != null) {
-            if (product != null) {
-                listener.onProductLoaded(product);
-            } else {
-                listener.onNoSuchProduct();
-            }
-        }
     }
 
     public void setListener(@Nullable OnCodeReadedListener listener) {
@@ -230,6 +229,6 @@ public class CodeReaderFragment extends BaseFragment
     public interface OnCodeReadedListener {
         void onProductLoaded(@NonNull Product product);
 
-        void onNoSuchProduct();
+        void onNoSuchProduct(@NonNull String code, @NonNull String format);
     }
 }
