@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ViewProductActivity">
+    tools:context=".view.ViewProductActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/f_view_product_appbar"
@@ -87,21 +87,7 @@
                     android:src="@drawable/type_vegan" />
             </LinearLayout>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/base_margin"
-                app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/base_margin">
-
-                <TextView
-                    android:id="@+id/f_view_product_description_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text" />
-            </android.support.v7.widget.CardView>
-
-            <Space
+            <android.support.v4.widget.Space
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
@@ -110,7 +96,10 @@
                 android:id="@+id/f_view_product_complain_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/base_margin"
+                android:layout_marginBottom="@dimen/base_margin"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_marginRight="@dimen/base_margin"
+                android:layout_marginTop="@dimen/middle_margin"
                 android:background="@drawable/orange_button"
                 android:text="@string/view_product_complain_button"
                 android:textColor="@color/light_text" />

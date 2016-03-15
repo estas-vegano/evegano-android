@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public enum ProductType {
     @JsonProperty("vegan")
     VEGAN,
-    @JsonProperty("vegetarian")
-    VEGETARIAN,
     @JsonProperty("lactovegetarian")
     LACTOVEGETARIAN,
+    @JsonProperty("vegetarian")
+    VEGETARIAN,
     @JsonProperty("fish")
     FISH,
     @JsonProperty("meat")

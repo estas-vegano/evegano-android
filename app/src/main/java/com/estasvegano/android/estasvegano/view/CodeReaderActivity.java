@@ -1,7 +1,5 @@
 package com.estasvegano.android.estasvegano.view;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,10 +7,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.estasvegano.android.estasvegano.R;
-import com.estasvegano.android.estasvegano.entity.Category;
-import com.estasvegano.android.estasvegano.entity.Producer;
 import com.estasvegano.android.estasvegano.entity.Product;
-import com.estasvegano.android.estasvegano.entity.ProductType;
+import com.estasvegano.android.estasvegano.view.dialog.AddProductDialogFragmentBuilder;
 
 import timber.log.Timber;
 
@@ -46,7 +42,7 @@ public class CodeReaderActivity extends AppCompatActivity implements CodeReaderF
     }
 
     @Override
-    public void onNoSuchProduct() {
+    public void onNoSuchProduct(@NonNull String code, @NonNull String format) {
         Timber.i("No product found");
         DialogFragment addFragment = (DialogFragment) getSupportFragmentManager()
                 .findFragmentByTag(ADD_DIALOG_FRAGMENT_KEY);
@@ -54,38 +50,7 @@ public class CodeReaderActivity extends AppCompatActivity implements CodeReaderF
             return;
         }
 
-        addFragment = new AddProductDialogFragment();
+        addFragment = new AddProductDialogFragmentBuilder(code, format).build();
         addFragment.show(getSupportFragmentManager(), ADD_DIALOG_FRAGMENT_KEY);
-    }
-
-    public static class AddProductDialogFragment extends DialogFragment {
-
-        @NonNull
-        private final Product product;
-
-        public AddProductDialogFragment() {
-            this.product = Product.builder()
-                    .category(Category.builder().id(1).title("Category").build())
-                    .id(1)
-                    .info(ProductType.VEGAN)
-                    .title("BlaBlaBla")
-                    .photo("http://blog.4shop.com.ua/wp-content/uploads/2013/01/shtrih_code.jpg")
-                    .producer(Producer.builder().ethical(true).id(1).title("Producer").build())
-                    .build();
-        }
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            return new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.no_product_dialog_title)
-                    .setMessage(R.string.no_product_dialog_message)
-                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        Timber.i("Going to add product activity");
-                        startActivity(ViewProductActivity.getStartIntent(getActivity(), product));
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .create();
-        }
     }
 }

@@ -12,8 +12,10 @@ import android.view.MenuItem;
 
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.entity.Product;
-import com.estasvegano.android.estasvegano.view.ComplainProductDialogFragment.ComplainDialogListener;
 import com.estasvegano.android.estasvegano.view.ViewProductFragment.ViewProductFragmentListener;
+import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFragment;
+import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFragment.ComplainDialogListener;
+import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFragmentBuilder;
 
 import rx.exceptions.CompositeException;
 

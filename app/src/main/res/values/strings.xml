@@ -1,25 +1,37 @@
 <resources>
     <string name="app_name">Estas Vegano</string>
-    <string name="title_activity_scan">Scan</string>
+    <string name="title_activity_scan">Scan code</string>
     <string name="title_activity_product">Product</string>
+    <string name="title_activity_add_product">Add product</string>
     <string name="scan_button">Scan</string>
     <string name="no_product_dialog_title">No product found =(</string>
     <string name="no_product_dialog_message">Would you like to add it?</string>
     <string name="permision_camera_denied_dialog_title">Nope</string>
-    <string name="permision_camera_denied_dialog_message">How can we read codes without camera, stupid?</string>
+    <string name="permision_camera_denied_dialog_message">It\'s really impossible to scan code without camera.</string>
     <string name="permision_denied_dialog_positive">Ok, I will add it</string>
-    <string name="permision_camera_rationale_dialog_title">We really need camera</string>
+    <string name="permision_camera_rationale_dialog_title">We need camera to scan codes.</string>
     <string name="permision_camera_rationale_dialog_message">Please, add it</string>
-    <string name="permision_internet_rationale_dialog_title">We really need internet</string>
-    <string name="permision_internet_rationale_dialog_message">Please, add it</string>
-    <string name="permision_internet_denied_dialog_title">Nope</string>
-    <string name="permision_internet_denied_dialog_message">How can we check codes without internet, stupid?</string>
     <string name="error_dialog_title">Error</string>
     <string name="view_product_complain_button">Complain</string>
     <string name="complain_product_dialog_title">Please, describe what is wrong with this product.</string>
-    <string name="loading_dialog_message">Please, wait...</string>
+    <string name="loading_dialog_message">Please, wait…</string>
     <string name="send">Send</string>
     <string name="cancel">Cancel</string>
     <string name="succes_dialog_title">Success!</string>
     <string name="complain_succes_dialog_message">Thanks! We will moderate this product based on your complain.</string>
+    <string name="add_photo">ADD PHOTO</string>
+    <string name="add_product_title_hint">Title</string>
+    <string name="choose_image_dialog_title">Choose image source.</string>
+    <string name="choose_image_dialog_message">Use camera or gallery?</string>
+    <string name="choose_image_dialog_camera">Camera</string>
+    <string name="choose_image_dialog_gallery">Gallery</string>
+    <string name="add_product_add_button">Send</string>
+    <string name="type_vegan">VEGAN</string>
+    <string name="type_milk">LACTOVEGETARIAN</string>
+    <string name="type_egg">LACTOOVOVEGETARIAN</string>
+    <string name="type_fish">PESKETARIAN</string>
+    <string name="type_meat">MEATEATER</string>
+    <string name="add_product_type_hint">Type:</string>
+    <string name="add_product_category_hint">Category:</string>
+    <string name="add_product_producer_hint">Producer</string>
 </resources>
