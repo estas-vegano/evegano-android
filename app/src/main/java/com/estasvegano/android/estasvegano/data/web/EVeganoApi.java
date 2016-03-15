@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.estasvegano.android.estasvegano.data.web.request.AddProducerRequest;
 import com.estasvegano.android.estasvegano.data.web.request.AddProductRequest;
+import com.estasvegano.android.estasvegano.data.web.response.CategoriesResponse;
 import com.estasvegano.android.estasvegano.entity.Category;
 import com.estasvegano.android.estasvegano.entity.Complain;
 import com.estasvegano.android.estasvegano.entity.Photo;
@@ -46,10 +47,10 @@ public interface EVeganoApi {
     );
 
     @GET(UrlConstants.CATEGORIES)
-    rx.Single<List<Category>> getTopCategories();
+    rx.Single<CategoriesResponse> getTopCategories();
 
     @GET(UrlConstants.SUB_CATEGORIES)
-    rx.Single<List<Category>> getSubCategories(@Path(UrlConstants.ID_REPLACEMENT) long categoryId);
+    rx.Single<Category> getCategory(@Path(UrlConstants.ID_REPLACEMENT) long categoryId);
 
     @POST(UrlConstants.ADD_PRODUCER)
     rx.Single<Void> addProducer(@Body @NonNull AddProducerRequest producer);

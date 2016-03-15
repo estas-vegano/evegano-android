@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'let'
 
 android {
     compileSdkVersion 23
@@ -56,6 +55,9 @@ dependencies {
     compile 'com.squareup.retrofit:converter-jackson:2.0.0-beta1'
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta1'
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta1'
+
+    compile 'com.github.hotchemi:permissionsdispatcher:2.0.8'
+    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.0.8'
 
     compile 'com.github.frankiesardo:auto-parcel:0.3.1'
     apt 'com.github.frankiesardo:auto-parcel-processor:0.3.1'

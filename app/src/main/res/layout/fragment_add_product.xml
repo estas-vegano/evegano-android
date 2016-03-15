@@ -26,6 +26,7 @@
                 android:src="@drawable/product_placeholder" />
 
             <TextView
+                android:id="@+id/f_add_product_image_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -33,6 +34,52 @@
                 android:textColor="#fff"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+        </FrameLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/middle_margin"
+            android:layout_marginRight="@dimen/middle_margin">
+
+            <EditText
+                android:id="@+id/f_add_product_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_product_title_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/primary_text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/middle_margin"
+            android:layout_marginRight="@dimen/middle_margin">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/f_add_product_producer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_product_producer_hint"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/primary_text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <ProgressBar
+                android:id="@+id/f_add_product_producer_progress"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="@dimen/base_margin"
+                android:visibility="invisible" />
         </FrameLayout>
 
         <LinearLayout
@@ -58,49 +105,29 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/middle_margin"
-            android:layout_marginRight="@dimen/middle_margin">
+            android:layout_marginRight="@dimen/middle_margin"
+            android:layout_marginTop="@dimen/base_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/f_add_product_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/add_product_title_hint"
-                android:maxLines="1"
-                android:textColor="@color/primary_text" />
-        </android.support.design.widget.TextInputLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/middle_margin"
-            android:layout_marginRight="@dimen/middle_margin">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <AutoCompleteTextView
-                    android:id="@+id/f_add_product_producer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/add_product_producer_hint"
-                    android:maxLines="1"
-                    android:textColor="@color/primary_text" />
-            </android.support.design.widget.TextInputLayout>
-
-            <ProgressBar
-                android:id="@+id/f_add_product_producer_progress"
-                style="?android:attr/progressBarStyleSmall"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="@dimen/base_margin"
-                android:visibility="invisible" />
-        </FrameLayout>
+                android:text="@string/add_product_category_hint"
+                android:textColor="@color/secondary_text"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/f_add_product_category_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_product_choose_category_hint" />
+        </LinearLayout>
 
         <android.support.v4.widget.Space
             android:layout_width="0dp"

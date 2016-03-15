@@ -18,6 +18,7 @@ import com.estasvegano.android.estasvegano.R;
 import rx.Subscription;
 import rx.exceptions.CompositeException;
 import rx.subscriptions.CompositeSubscription;
+import timber.log.Timber;
 
 public class BaseFragment extends Fragment {
 
@@ -56,6 +57,7 @@ public class BaseFragment extends Fragment {
     }
 
     protected void onBaseError(@NonNull Throwable throwable) {
+        Timber.e(throwable, "Error ");
         hideLoadingDialog();
 
         String message;
