@@ -47,8 +47,8 @@ public class ProductModel {
     public rx.Single<Product> addProduct(
             @NonNull String title,
             @NonNull ProductType type,
-            @NonNull String categoryId,
-            @NonNull String producerId) {
+            long categoryId,
+            long producerId) {
         return api.addProduct(AddProductRequest.builder()
                 .title(title)
                 .info(type)

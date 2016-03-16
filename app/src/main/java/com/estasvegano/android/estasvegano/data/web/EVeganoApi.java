@@ -53,7 +53,7 @@ public interface EVeganoApi {
     rx.Single<Category> getCategory(@Path(UrlConstants.ID_REPLACEMENT) long categoryId);
 
     @POST(UrlConstants.ADD_PRODUCER)
-    rx.Single<Void> addProducer(@Body @NonNull AddProducerRequest producer);
+    rx.Single<Producer> addProducer(@Body @NonNull AddProducerRequest producer);
 
     @POST(UrlConstants.PRODUCERS)
     rx.Single<List<Producer>> getProducers(@Path(UrlConstants.ID_REPLACEMENT) @NonNull String title);

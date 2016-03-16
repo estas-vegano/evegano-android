@@ -22,7 +22,7 @@ public class ProducerModel {
         this.errorParser = errorParser;
     }
 
-    public rx.Single<Void> addProducer(@NonNull String title) {
+    public rx.Single<Producer> addProducer(@NonNull String title) {
         return api.addProducer(AddProducerRequest.builder().title(title).build());
     }
 

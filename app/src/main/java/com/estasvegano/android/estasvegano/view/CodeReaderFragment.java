@@ -153,7 +153,7 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
         this.listener = listener;
     }
 
-
+    //region permissions
     @OnShowRationale(CAMERA)
     void onShowPermissionRationale(@NonNull PermissionRequest permissionRequest) {
         cameraPermissionDialogShowing = true;
@@ -194,6 +194,7 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
         intent.setData(uri);
         startActivity(intent);
     }
+    //endregion
 
     public interface OnCodeReadedListener {
         void onProductLoaded(@NonNull Product product);

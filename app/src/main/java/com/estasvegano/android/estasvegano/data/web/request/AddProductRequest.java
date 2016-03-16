@@ -27,12 +27,10 @@ public abstract class AddProductRequest implements Parcelable {
     public abstract ProductType info();
 
     @JsonProperty("producer_id")
-    @NonNull
-    public abstract String producerId();
+    public abstract long producerId();
 
     @JsonProperty("category_id")
-    @NonNull
-    public abstract String categoryId();
+    public abstract long categoryId();
 
     @SuppressWarnings("NullableProblems")
     @AutoParcel.Builder
@@ -48,11 +46,11 @@ public abstract class AddProductRequest implements Parcelable {
 
         @JsonProperty("producer_id")
         @NonNull
-        public abstract Builder producerId(@NonNull String producerId);
+        public abstract Builder producerId(long producerId);
 
         @JsonProperty("category_id")
         @NonNull
-        public abstract Builder categoryId(@NonNull String categoryId);
+        public abstract Builder categoryId(long categoryId);
 
         @NonNull
         public abstract AddProductRequest build();
