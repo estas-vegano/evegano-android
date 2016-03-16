@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.util.List;
+
 import auto.parcel.AutoParcel;
 
 @AutoParcel
@@ -26,9 +28,13 @@ public abstract class Category implements Parcelable {
     @NonNull
     public abstract String title();
 
-    @JsonProperty("sub_category")
+    @JsonProperty("children")
     @Nullable
-    public abstract Category subCategory();
+    public abstract List<Category> subCategories();
+
+    public boolean isLowLevel() {
+        return subCategories() == null || subCategories().size() == 0;
+    }
 
     @AutoParcel.Builder
     public static abstract class Builder {
@@ -41,9 +47,9 @@ public abstract class Category implements Parcelable {
         @NonNull
         public abstract Builder title(@NonNull String title);
 
-        @JsonProperty("sub_category")
+        @JsonProperty("children")
         @NonNull
-        public abstract Builder subCategory(@Nullable Category subCategory);
+        public abstract Builder subCategories(@Nullable List<Category> subCategory);
 
         @NonNull
         public abstract Category build();

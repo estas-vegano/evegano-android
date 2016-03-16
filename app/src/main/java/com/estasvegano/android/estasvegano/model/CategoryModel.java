@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.estasvegano.android.estasvegano.data.ErrorParser;
 import com.estasvegano.android.estasvegano.data.web.EVeganoApi;
+import com.estasvegano.android.estasvegano.data.web.response.CategoriesResponse;
 import com.estasvegano.android.estasvegano.entity.Category;
 
 import java.util.List;
@@ -25,12 +26,12 @@ public class CategoryModel {
     @CheckResult
     @NonNull
     public rx.Single<List<Category>> getTopCategories() {
-        return api.getTopCategories();
+        return api.getTopCategories().map(CategoriesResponse::subCategories);
     }
 
     @CheckResult
     @NonNull
-    public rx.Single<List<Category>> getSubCategory(long categoryId) {
-        return api.getSubCategories(categoryId);
+    public rx.Single<Category> getCategory(long categoryId) {
+        return api.getCategory(categoryId);
     }
 }
