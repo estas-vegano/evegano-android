@@ -64,55 +64,74 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 public class AddProductFragment extends BaseFragment {
 
     public static final int MAX_SIZE = 1024;
+
     public static final int CAMERA_REQUEST_CODE = 161;
+
     public static final int GALLERY_REQUEST_CODE = 666;
 
     public static final String CHOOSE_CATEGORY_DIALOG_FRAGMENT_KEY = "CHOOSE_CATEGORY_DIALOG_FRAGMENT";
+
     @SuppressWarnings("NullableProblems") // onCreateView
     @Arg
     @NonNull
     String code;
+
     @SuppressWarnings("NullableProblems") // onCreateView
     @Arg
     @NonNull
     String format;
+
     @SuppressWarnings("NullableProblems") // onCreateView
     @Inject
     @NonNull
     CategoryModel categoryModel;
+
     @SuppressWarnings("NullableProblems") // onCreateView
     @Inject
     @NonNull
     ProductModel productModel;
+
     @SuppressWarnings("NullableProblems") // onCreateView
     @Inject
     @NonNull
     ProducerModel producerModel;
+
     @SuppressWarnings("NullableProblems") // onCreateView
     @Inject
     @NonNull
     Picasso picasso;
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
     @Bind(R.id.f_add_product_image)
     ImageView productImage;
+
     @Bind(R.id.f_add_product_title)
     TextView productTitleLabel;
+
     @Bind(R.id.f_add_product_producer)
     AutoCompleteTextView producerAutoCompleteView;
+
     @Bind(R.id.f_add_product_type_spinner)
     Spinner productTypeSpinner;
+
     @Bind(R.id.f_add_product_producer_progress)
     ProgressBar producerProgressBar;
+
     @Bind(R.id.f_add_product_category_button)
     Button categoryButton;
+
     @Bind(R.id.f_add_product_image_label)
     TextView productImageLabel;
+
     @NonNull
     private ImagePickerHelper imagePickerHelper
             = new ImagePickerHelper(MAX_SIZE, CAMERA_REQUEST_CODE, GALLERY_REQUEST_CODE);
+
     @Nullable
     private Bitmap productBitmap;
+
     @Nullable
     private Category selectedCategory;
 
@@ -265,6 +284,7 @@ public class AddProductFragment extends BaseFragment {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @OnShowRationale(READ_EXTERNAL_STORAGE)
     void onShowPermissionRationale(@NonNull PermissionRequest permissionRequest) {
         new AlertDialog.Builder(getActivity())
@@ -280,6 +300,7 @@ public class AddProductFragment extends BaseFragment {
                 .show();
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @OnPermissionDenied(READ_EXTERNAL_STORAGE)
     void onPermissionDenied() {
         new AlertDialog.Builder(getActivity())
