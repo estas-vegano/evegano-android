@@ -5,6 +5,7 @@
     <color name="primary_light">#DCEDC8</color>
     <color name="accent">#FF9800</color>
     <color name="accent_dark">#ef6c00</color>
+    <color name="light_blue">#6cbfe1</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="light_text">#fff</color>

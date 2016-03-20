@@ -32,6 +32,10 @@ public abstract class Category implements Parcelable {
     @Nullable
     public abstract List<Category> subCategories();
 
+    @JsonProperty("parent")
+    @Nullable
+    public abstract Category parent();
+
     public boolean isLowLevel() {
         return subCategories() == null || subCategories().size() == 0;
     }
@@ -50,6 +54,10 @@ public abstract class Category implements Parcelable {
         @JsonProperty("children")
         @NonNull
         public abstract Builder subCategories(@Nullable List<Category> subCategory);
+
+        @JsonProperty("parent")
+        @NonNull
+        public abstract Builder parent(@Nullable Category parent);
 
         @NonNull
         public abstract Category build();

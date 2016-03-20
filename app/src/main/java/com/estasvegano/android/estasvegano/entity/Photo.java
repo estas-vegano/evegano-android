@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import auto.parcel.AutoParcel;
 
 @AutoParcel
-@JsonDeserialize(builder = Photo.Builder.class)
+@JsonDeserialize(builder = AutoParcel_Photo.Builder.class)
 public abstract class Photo {
 
     @NonNull

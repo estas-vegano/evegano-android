@@ -12,6 +12,7 @@
         <include layout="@layout/toolbar" />
 
         <FrameLayout
+            android:id="@+id/f_add_product_image_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -42,8 +43,8 @@
             android:layout_marginLeft="@dimen/middle_margin"
             android:layout_marginRight="@dimen/middle_margin">
 
-            <EditText
-                android:id="@+id/f_add_product_title"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/f_add_product_title_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/add_product_title_hint"
@@ -63,7 +64,7 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:id="@+id/f_add_product_producer"
+                    android:id="@+id/f_add_product_producer_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/add_product_producer_hint"

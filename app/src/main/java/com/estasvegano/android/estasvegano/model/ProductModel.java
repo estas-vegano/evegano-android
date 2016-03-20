@@ -11,10 +11,11 @@ import com.estasvegano.android.estasvegano.entity.Complain;
 import com.estasvegano.android.estasvegano.entity.Photo;
 import com.estasvegano.android.estasvegano.entity.Product;
 import com.estasvegano.android.estasvegano.entity.ProductType;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
 
 import java.io.ByteArrayOutputStream;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 // TODO: add caching
 public class ProductModel {
@@ -47,13 +48,18 @@ public class ProductModel {
     public rx.Single<Product> addProduct(
             @NonNull String title,
             @NonNull ProductType type,
-            @NonNull String categoryId,
-            @NonNull String producerId) {
+            @NonNull String code,
+            @NonNull String format,
+            long categoryId,
+            long producerId
+    ) {
         return api.addProduct(AddProductRequest.builder()
                 .title(title)
                 .info(type)
                 .categoryId(categoryId)
                 .producerId(producerId)
+                .code(code)
+                .codeType(format)
                 .build());
     }
 
@@ -63,7 +69,7 @@ public class ProductModel {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] imageBytes = stream.toByteArray();
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/json"), imageBytes);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
         return api.uploadPhoto(productId, requestBody);
     }
 

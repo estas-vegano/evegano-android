@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.estasvegano.android.estasvegano.data.ErrorParser;
 import com.estasvegano.android.estasvegano.data.web.EVeganoApi;
 import com.estasvegano.android.estasvegano.data.web.request.AddProducerRequest;
+import com.estasvegano.android.estasvegano.data.web.response.ProducersResponse;
 import com.estasvegano.android.estasvegano.entity.Producer;
 
 import java.util.List;
@@ -22,11 +23,11 @@ public class ProducerModel {
         this.errorParser = errorParser;
     }
 
-    public rx.Single<Void> addProducer(@NonNull String title) {
+    public rx.Single<Producer> addProducer(@NonNull String title) {
         return api.addProducer(AddProducerRequest.builder().title(title).build());
     }
 
     public rx.Single<List<Producer>> getProducers(@NonNull String title) {
-        return api.getProducers(title);
+        return api.getProducers(title).map(ProducersResponse::producers);
     }
 }

@@ -14,11 +14,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -26,6 +29,8 @@ import android.widget.TextView;
 
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.entity.Category;
+import com.estasvegano.android.estasvegano.entity.Producer;
+import com.estasvegano.android.estasvegano.entity.ProductType;
 import com.estasvegano.android.estasvegano.model.CategoryModel;
 import com.estasvegano.android.estasvegano.model.ProducerModel;
 import com.estasvegano.android.estasvegano.model.ProductModel;
@@ -52,6 +57,7 @@ import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
+import rx.Single;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -223,6 +229,73 @@ public class AddProductFragment extends BaseFragment {
         categoryButton.setText(selectedCategory.title());
     }
 
+    @OnClick(R.id.f_add_product_add_button)
+    public void onAddButtonClicked() {
+        if (productBitmap == null) {
+            shakeView(productImageContainer);
+            return;
+        }
+        String title = productTitleLabel.getText().toString();
+        if (TextUtils.isEmpty(title)) {
+            shakeView((View) productTitleLabel.getParent());
+            return;
+        }
+        String producerTitle = producerAutoCompleteView.getText().toString();
+        if (TextUtils.isEmpty(producerTitle)) {
+            shakeView((View) producerAutoCompleteView.getParent());
+            return;
+        }
+        if (selectedCategory == null) {
+            shakeView(categoryButton);
+            return;
+        }
+
+        addProduct(title, producerTitle, (ProductType) productTypeSpinner.getSelectedItem(), selectedCategory);
+    }
+
+    private void addProduct(
+            @NonNull String title,
+            @NonNull String producerTitle,
+            @NonNull ProductType type,
+            @NonNull Category selectedCategory
+    ) {
+        showLoadingDialog();
+        Producer producerByTitleIfExists = producerAdapter.getProducerByTitleIfExists(producerTitle);
+        Single<Producer> producerSingle = producerByTitleIfExists == null
+                ? producerModel.addProducer(producerTitle)
+                : Single.just(producerByTitleIfExists);
+        producerSingle
+                .flatMap(producer -> productModel.addProduct(title, type, code, format, selectedCategory.id(), producer.id()))
+                .flatMap(product -> productModel.uploadPhoto(product.id(), productBitmap))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        success -> onAddProductSuccess(),
+                        this::onBaseError
+                );
+    }
+
+    public void onAddProductSuccess() {
+        if (!isAdded()) {
+            return;
+        }
+        hideLoadingDialog();
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.succes_dialog_title)
+                .setMessage(R.string.add_product_succes_dialog_message)
+                .setPositiveButton(
+                        android.R.string.ok,
+                        (dialog, which) -> getActivity().finish()
+                )
+                .create()
+                .show();
+    }
+
+    private void shakeView(@NonNull View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.shake));
+    }
+
+    //region categories
     @OnClick(R.id.f_add_product_category_button)
     public void onCategoryClicked() {
         if (getFragmentManager().findFragmentByTag(CHOOSE_CATEGORY_DIALOG_FRAGMENT_KEY) != null) {
@@ -282,7 +355,9 @@ public class AddProductFragment extends BaseFragment {
                 );
         unsubscribeOnDestroyView(subscription);
     }
+    //endregion
 
+    //region permissions
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @OnShowRationale(READ_EXTERNAL_STORAGE)
@@ -320,4 +395,5 @@ public class AddProductFragment extends BaseFragment {
         intent.setData(uri);
         startActivity(intent);
     }
+    //endregion
 }

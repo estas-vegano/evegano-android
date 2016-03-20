@@ -58,6 +58,11 @@ public class BaseFragment extends Fragment {
 
     protected void onBaseError(@NonNull Throwable throwable) {
         Timber.e(throwable, "Error ");
+
+        if (!isAdded()) {
+            return;
+        }
+
         hideLoadingDialog();
 
         String message;

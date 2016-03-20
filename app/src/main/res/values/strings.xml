@@ -38,4 +38,5 @@
     <string name="add_product_producer_hint">Producer</string>
     <string name="choose_category_dialog_title">Choose category</string>
     <string name="add_product_choose_category_hint">Choose category</string>
+    <string name="add_product_succes_dialog_message">Thanks for your assistance!</string>
 </resources>

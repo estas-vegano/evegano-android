@@ -17,7 +17,6 @@ public abstract class AddProductRequest implements Parcelable {
         return new AutoParcel_AddProductRequest.Builder();
     }
 
-
     @JsonProperty("title")
     @NonNull
     public abstract String title();
@@ -27,12 +26,18 @@ public abstract class AddProductRequest implements Parcelable {
     public abstract ProductType info();
 
     @JsonProperty("producer_id")
-    @NonNull
-    public abstract String producerId();
+    public abstract long producerId();
 
     @JsonProperty("category_id")
+    public abstract long categoryId();
+
+    @JsonProperty("code")
     @NonNull
-    public abstract String categoryId();
+    public abstract String code();
+
+    @JsonProperty("code_type")
+    @NonNull
+    public abstract String codeType();
 
     @SuppressWarnings("NullableProblems")
     @AutoParcel.Builder
@@ -48,11 +53,19 @@ public abstract class AddProductRequest implements Parcelable {
 
         @JsonProperty("producer_id")
         @NonNull
-        public abstract Builder producerId(@NonNull String producerId);
+        public abstract Builder producerId(long producerId);
 
         @JsonProperty("category_id")
         @NonNull
-        public abstract Builder categoryId(@NonNull String categoryId);
+        public abstract Builder categoryId(long categoryId);
+
+        @JsonProperty("title")
+        @NonNull
+        public abstract Builder code(@NonNull String code);
+
+        @JsonProperty("code_type")
+        @NonNull
+        public abstract Builder codeType(@NonNull String codeType);
 
         @NonNull
         public abstract AddProductRequest build();
