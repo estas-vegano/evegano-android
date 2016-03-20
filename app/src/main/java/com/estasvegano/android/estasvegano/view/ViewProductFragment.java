@@ -25,6 +25,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.estasvegano.android.estasvegano.view.util.Utils.getEthicalImage;
 import static com.estasvegano.android.estasvegano.view.util.Utils.getTypeImage;
 
 @FragmentWithArgs
@@ -92,6 +93,7 @@ public class ViewProductFragment extends BaseFragment {
         setTitle(product.title());
         loadAvatar();
         productTypeImageView.setImageResource(getTypeImage(product.info()));
+        productEthicalImageView.setImageResource(getEthicalImage(product.producer().ethical()));
     }
 
     private void loadAvatar() {

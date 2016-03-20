@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".view.ViewProductActivity">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:orientation="vertical"
+                                                 tools:context=".view.ViewProductActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/f_view_product_appbar"
@@ -37,14 +37,14 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/picture_bottom_margin"
                     android:layout_marginTop="@dimen/large_margin"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"/>
             </FrameLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/f_view_product_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"/>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -73,24 +73,26 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/type_meat" />
+                    android:background="@color/light_blue"
+                    android:src="@drawable/type_meat"/>
 
                 <Space
                     android:layout_width="@dimen/base_margin"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <ImageView
                     android:id="@+id/f_view_product_ethical_image"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/type_vegan" />
+                    android:background="@color/light_blue"
+                    android:src="@drawable/type_vegan"/>
             </LinearLayout>
 
             <android.support.v4.widget.Space
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/f_view_product_complain_button"
@@ -102,7 +104,7 @@
                 android:layout_marginTop="@dimen/middle_margin"
                 android:background="@drawable/orange_button"
                 android:text="@string/view_product_complain_button"
-                android:textColor="@color/light_text" />
+                android:textColor="@color/light_text"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
