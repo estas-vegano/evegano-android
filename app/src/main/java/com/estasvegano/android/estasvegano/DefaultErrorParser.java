@@ -2,7 +2,7 @@ package com.estasvegano.android.estasvegano;
 
 import com.estasvegano.android.estasvegano.data.ErrorParser;
 
-import retrofit.HttpException;
+import retrofit2.adapter.rxjava.HttpException;
 
 public class DefaultErrorParser implements ErrorParser {
 

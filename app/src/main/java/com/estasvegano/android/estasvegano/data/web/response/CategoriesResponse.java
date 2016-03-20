@@ -2,7 +2,6 @@ package com.estasvegano.android.estasvegano.data.web.response;
 
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.estasvegano.android.estasvegano.entity.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,7 +21,7 @@ public abstract class CategoriesResponse implements Parcelable {
     }
 
     @JsonProperty("categories")
-    @Nullable
+    @NonNull
     public abstract List<Category> subCategories();
 
     @AutoParcel.Builder
@@ -30,7 +29,7 @@ public abstract class CategoriesResponse implements Parcelable {
 
         @JsonProperty("categories")
         @NonNull
-        public abstract Builder subCategories(@Nullable List<Category> subCategory);
+        public abstract Builder subCategories(@NonNull List<Category> subCategories);
 
         @NonNull
         public abstract CategoriesResponse build();

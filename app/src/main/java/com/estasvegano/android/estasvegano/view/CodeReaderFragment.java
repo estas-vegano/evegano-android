@@ -118,7 +118,10 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
                 rawResult.getBarcodeFormat().getName(),
                 rawResult.getContents()
         );
-        checkProduct(rawResult.getContents(), rawResult.getBarcodeFormat().getName());
+        checkProduct(
+                rawResult.getContents(),
+                rawResult.getBarcodeFormat().getName().replace("[^A-Za-z0-9]", "").toUpperCase()
+        );
 
         new Handler().postDelayed(() -> {
                     if (isAdded()) {
@@ -197,6 +200,7 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
     //endregion
 
     public interface OnCodeReadedListener {
+
         void onProductLoaded(@NonNull Product product);
 
         void onNoSuchProduct(@NonNull String code, @NonNull String format);

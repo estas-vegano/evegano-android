@@ -3,28 +3,32 @@ package com.estasvegano.android.estasvegano.data;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.estasvegano.android.estasvegano.BuildConfig;
 import com.estasvegano.android.estasvegano.NetworkAvailabilityCheckerImpl;
 import com.estasvegano.android.estasvegano.data.web.EVeganoApi;
 import com.estasvegano.android.estasvegano.data.web.NetworkAvailabilityChecker;
 import com.estasvegano.android.estasvegano.data.web.UrlConstants;
 import com.estasvegano.android.estasvegano.data.web.interceptor.LocalizationInterceptor;
 import com.estasvegano.android.estasvegano.data.web.interceptor.LoggingInterceptor;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
 
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.JacksonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import timber.log.Timber;
+
+import static com.estasvegano.android.estasvegano.data.web.interceptor.LoggingInterceptor.Level.BODY;
+import static com.estasvegano.android.estasvegano.data.web.interceptor.LoggingInterceptor.Level.NONE;
 
 @Module
 public class DataModule {
+
     @NonNull
     private final Context context;
 
@@ -41,8 +45,11 @@ public class DataModule {
     @Provides
     @NonNull
     LoggingInterceptor getLoggingInterceptor() {
-        return new LoggingInterceptor(Timber::i);
+        LoggingInterceptor loggingInterceptor = new LoggingInterceptor(Timber::i);
+        loggingInterceptor.setLevel(BuildConfig.DEBUG ? BODY : NONE);
+        return loggingInterceptor;
     }
+
 
     @Provides
     @NonNull
@@ -57,10 +64,12 @@ public class DataModule {
             @NonNull LoggingInterceptor loggingInterceptor,
             @NonNull LocalizationInterceptor localizationInterceptor
     ) {
-        OkHttpClient client = new OkHttpClient();
-        List<Interceptor> interceptors = client.interceptors();
-        interceptors.add(localizationInterceptor);
-        interceptors.add(loggingInterceptor);
+        OkHttpClient client = new OkHttpClient()
+                .newBuilder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .addInterceptor(localizationInterceptor)
+                .addInterceptor(loggingInterceptor)
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)

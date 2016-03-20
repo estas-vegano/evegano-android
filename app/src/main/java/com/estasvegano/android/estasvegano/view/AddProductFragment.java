@@ -259,12 +259,14 @@ public class AddProductFragment extends BaseFragment {
             @NonNull ProductType type,
             @NonNull Category selectedCategory
     ) {
+        showLoadingDialog();
         Producer producerByTitleIfExists = producerAdapter.getProducerByTitleIfExists(producerTitle);
         Single<Producer> producerSingle = producerByTitleIfExists == null
                 ? producerModel.addProducer(producerTitle)
                 : Single.just(producerByTitleIfExists);
         producerSingle
-                .flatMap(producer -> productModel.addProduct(title, type, selectedCategory.id(), producer.id()))
+                .flatMap(producer -> productModel.addProduct(title, type, code, format, selectedCategory.id(), producer.id()))
+                .flatMap(product -> productModel.uploadPhoto(product.id(), productBitmap))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -274,10 +276,17 @@ public class AddProductFragment extends BaseFragment {
     }
 
     public void onAddProductSuccess() {
+        if (!isAdded()) {
+            return;
+        }
+        hideLoadingDialog();
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.succes_dialog_title)
                 .setMessage(R.string.add_product_succes_dialog_message)
-                .setPositiveButton(android.R.string.ok, null)
+                .setPositiveButton(
+                        android.R.string.ok,
+                        (dialog, which) -> getActivity().finish()
+                )
                 .create()
                 .show();
     }

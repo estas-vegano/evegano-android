@@ -5,22 +5,21 @@ import android.support.annotation.NonNull;
 import com.estasvegano.android.estasvegano.data.web.request.AddProducerRequest;
 import com.estasvegano.android.estasvegano.data.web.request.AddProductRequest;
 import com.estasvegano.android.estasvegano.data.web.response.CategoriesResponse;
+import com.estasvegano.android.estasvegano.data.web.response.ProducersResponse;
 import com.estasvegano.android.estasvegano.entity.Category;
 import com.estasvegano.android.estasvegano.entity.Complain;
 import com.estasvegano.android.estasvegano.entity.Photo;
 import com.estasvegano.android.estasvegano.entity.Producer;
 import com.estasvegano.android.estasvegano.entity.Product;
-import com.squareup.okhttp.RequestBody;
 
-import java.util.List;
-
-import retrofit.http.Body;
-import retrofit.http.GET;
-import retrofit.http.Multipart;
-import retrofit.http.POST;
-import retrofit.http.Part;
-import retrofit.http.Path;
-import retrofit.http.Query;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface EVeganoApi {
 
@@ -37,7 +36,7 @@ public interface EVeganoApi {
     @POST(UrlConstants.ADD_IMAGE)
     rx.Single<Photo> uploadPhoto(
             @Path(UrlConstants.ID_REPLACEMENT) long productId,
-            @Part("image.jpg") @NonNull RequestBody photo
+            @Part("upload\"; filename=\"image.jpg") @NonNull RequestBody photo
     );
 
     @POST(UrlConstants.COMPLAIN)
@@ -55,6 +54,6 @@ public interface EVeganoApi {
     @POST(UrlConstants.ADD_PRODUCER)
     rx.Single<Producer> addProducer(@Body @NonNull AddProducerRequest producer);
 
-    @POST(UrlConstants.PRODUCERS)
-    rx.Single<List<Producer>> getProducers(@Path(UrlConstants.ID_REPLACEMENT) @NonNull String title);
+    @GET(UrlConstants.PRODUCERS)
+    rx.Single<ProducersResponse> getProducers(@Query(UrlConstants.PRODUCERS_TITLE_QUERY) @NonNull String title);
 }

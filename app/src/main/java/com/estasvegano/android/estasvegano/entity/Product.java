@@ -7,12 +7,15 @@ import android.support.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.util.List;
+
 import auto.parcel.AutoParcel;
 
 @AutoParcel
-@JsonDeserialize(builder = Product.Builder.class)
+@JsonDeserialize(builder = AutoParcel_Product.Builder.class)
 public abstract class Product implements Parcelable {
 
+    @NonNull
     public static Builder builder() {
         return new AutoParcel_Product.Builder();
     }
@@ -39,6 +42,10 @@ public abstract class Product implements Parcelable {
     @JsonProperty("category")
     @NonNull
     public abstract Category category();
+
+    @JsonProperty("codes")
+    @NonNull
+    public abstract List<Code> codes();
 
     @SuppressWarnings("NullableProblems")
     @AutoParcel.Builder
@@ -68,7 +75,44 @@ public abstract class Product implements Parcelable {
         @NonNull
         public abstract Builder category(@NonNull Category category);
 
+        @JsonProperty("codes")
+        @NonNull
+        public abstract Builder codes(@NonNull List<Code> codes);
+
         @NonNull
         public abstract Product build();
+    }
+
+    @AutoParcel
+    @JsonDeserialize(builder = AutoParcel_Product_Code.Builder.class)
+    public static abstract class Code implements Parcelable {
+
+        @NonNull
+        public static Builder builder() {
+            return new AutoParcel_Product_Code.Builder();
+        }
+
+        @JsonProperty("code")
+        @NonNull
+        public abstract String code();
+
+        @JsonProperty("type")
+        @NonNull
+        public abstract String type();
+
+        @AutoParcel.Builder
+        public static abstract class Builder {
+
+            @JsonProperty("code")
+            @NonNull
+            public abstract Builder code(@NonNull String code);
+
+            @JsonProperty("type")
+            @NonNull
+            public abstract Builder type(@NonNull String type);
+
+            @NonNull
+            public abstract Code build();
+        }
     }
 }

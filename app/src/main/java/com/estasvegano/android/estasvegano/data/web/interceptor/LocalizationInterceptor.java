@@ -2,12 +2,12 @@ package com.estasvegano.android.estasvegano.data.web.interceptor;
 
 import android.support.annotation.NonNull;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
 import java.util.Locale;
+
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class LocalizationInterceptor implements Interceptor
