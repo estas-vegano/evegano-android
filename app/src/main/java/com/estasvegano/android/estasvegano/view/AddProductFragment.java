@@ -68,7 +68,6 @@ public class AddProductFragment extends BaseFragment {
     public static final int GALLERY_REQUEST_CODE = 666;
 
     public static final String CHOOSE_CATEGORY_DIALOG_FRAGMENT_KEY = "CHOOSE_CATEGORY_DIALOG_FRAGMENT";
-
     @SuppressWarnings("NullableProblems") // onCreateView
     @Arg
     @NonNull
