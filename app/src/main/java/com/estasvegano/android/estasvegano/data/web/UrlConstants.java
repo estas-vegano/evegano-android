@@ -13,8 +13,6 @@ public class UrlConstants {
 
     public static final String ADD_IMAGE = "/api/v1.0/add/" + ID_REPLACEMENT_BRACKETS + "/photo";
 
-    public static final String ADD_IMAGE = "/api/v1.0/add/" + ID_REPLACEMENT_BRACKETS + "/photo";
-
     public static final String COMPLAIN = "/api/v1.0/" + ID_REPLACEMENT_BRACKETS + "/complain";
 
     public static final String PRODUCERS = "/api/v1.0/producers/";
