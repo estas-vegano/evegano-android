@@ -1,5 +1,7 @@
 package com.estasvegano.android.estasvegano.entity;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum ProductType {
@@ -14,5 +16,10 @@ public enum ProductType {
     @JsonProperty("meat")
     MEAT,
     @JsonProperty("unknown")
-    UNKNOWN
+    UNKNOWN;
+
+    @NonNull
+    public static ProductType[] valuesToShow() {
+        return new ProductType[]{VEGAN, LACTOVEGETARIAN, VEGETARIAN, FISH, MEAT};
+    }
 }

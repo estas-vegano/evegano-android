@@ -31,13 +31,13 @@ public class ProductTypeArrayAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return ProductType.values().length;
+        return ProductType.valuesToShow().length;
     }
 
     @Override
     @NonNull
     public ProductType getItem(int position) {
-        return ProductType.values()[position];
+        return ProductType.valuesToShow()[position];
     }
 
     @Override
