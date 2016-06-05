@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.estasvegano.android.estasvegano.R;
+import com.estasvegano.android.estasvegano.data.web.ApiException;
+import com.estasvegano.android.estasvegano.data.web.response.ErrorCode;
 import com.estasvegano.android.estasvegano.entity.Product;
 import com.estasvegano.android.estasvegano.model.ProductModel;
 
@@ -141,14 +143,21 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
                             hideLoadingDialog();
                             Timber.i("Product loaded: %s", product);
                             if (listener != null) {
-                                if (product != null) {
-                                    listener.onProductLoaded(product);
-                                } else {
-                                    listener.onNoSuchProduct(code, format);
-                                }
+                                listener.onProductLoaded(product);
                             }
                         },
-                        this::onBaseError);
+                        (error) -> {
+                            if (error instanceof ApiException
+                                    && ((ApiException) error).getErrorCode() == ErrorCode.PRODUCT_NOT_FOUND) {
+                                hideLoadingDialog();
+                                if (listener != null) {
+                                    listener.onNoSuchProduct(code, format);
+                                }
+                            } else {
+                                onBaseError(error);
+                            }
+                        }
+                );
         unsubscribeOnDestroyView(subscription);
     }
 

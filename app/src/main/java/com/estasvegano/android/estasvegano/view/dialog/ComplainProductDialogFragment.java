@@ -92,6 +92,9 @@ public class ComplainProductDialogFragment extends DialogFragment {
     }
 
     private void sendComplain(@NonNull String message) {
+        if (listener != null) {
+            listener.onComplainStarted();
+        }
         Timber.i("Sending complain \"%s\" about product: %s", message, product);
         productModel
                 .complain(product.id(), Complain.builder().message(message).build())
@@ -112,6 +115,8 @@ public class ComplainProductDialogFragment extends DialogFragment {
     }
 
     public interface ComplainDialogListener {
+
+        void onComplainStarted();
 
         void onComplainSuccess();
 

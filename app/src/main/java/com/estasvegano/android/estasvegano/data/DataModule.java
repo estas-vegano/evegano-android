@@ -10,6 +10,7 @@ import com.estasvegano.android.estasvegano.data.web.NetworkAvailabilityChecker;
 import com.estasvegano.android.estasvegano.data.web.UrlConstants;
 import com.estasvegano.android.estasvegano.data.web.interceptor.LocalizationInterceptor;
 import com.estasvegano.android.estasvegano.data.web.interceptor.LoggingInterceptor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.concurrent.TimeUnit;
 
@@ -50,11 +51,16 @@ public class DataModule {
         return loggingInterceptor;
     }
 
-
     @Provides
     @NonNull
     LocalizationInterceptor getLocalizationInterceptor() {
         return new LocalizationInterceptor();
+    }
+
+    @Provides
+    @NonNull
+    ObjectMapper provideObjectMapper() {
+        return new ObjectMapper();
     }
 
     @Singleton
@@ -62,7 +68,8 @@ public class DataModule {
     @NonNull
     EVeganoApi getWebApi(
             @NonNull LoggingInterceptor loggingInterceptor,
-            @NonNull LocalizationInterceptor localizationInterceptor
+            @NonNull LocalizationInterceptor localizationInterceptor,
+            @NonNull ObjectMapper objectMapper
     ) {
         OkHttpClient client = new OkHttpClient()
                 .newBuilder()
@@ -74,7 +81,7 @@ public class DataModule {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .baseUrl(UrlConstants.BASE_URL)
-                .addConverterFactory(JacksonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 

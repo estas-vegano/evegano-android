@@ -22,8 +22,10 @@ public class ProducerAdapter extends ArrayAdapter<String> implements Filterable 
 
     @NonNull
     private final ProducerModel producerModel;
+
     @NonNull
     private final ProgressBar progressBar;
+
     @NonNull
     private List<Producer> items = new ArrayList<>(0);
 

@@ -1,16 +1,24 @@
 package com.estasvegano.android.estasvegano;
 
-import com.estasvegano.android.estasvegano.data.ErrorParser;
+import android.support.annotation.NonNull;
 
-import retrofit2.adapter.rxjava.HttpException;
+import com.estasvegano.android.estasvegano.data.web.ApiException;
+import com.estasvegano.android.estasvegano.data.web.ErrorParser;
+import com.estasvegano.android.estasvegano.data.web.response.BaseResponse;
+import com.estasvegano.android.estasvegano.data.web.response.ErrorCode;
+
+import rx.Single;
+
+import static rx.Single.error;
+import static rx.Single.just;
 
 public class DefaultErrorParser implements ErrorParser {
 
-    @Override
-    public int getErrorStatus(Throwable error) {
-        if (error instanceof HttpException) {
-            return ((HttpException) error).code();
-        }
-        return NO_ERROR_STATUS;
+    @NonNull
+    public <T> Single<T> checkIfError(@NonNull BaseResponse<T> response) {
+        //noinspection ConstantConditions
+        return response.errorCode() != ErrorCode.SUCCESS
+                ? error(new ApiException(response.errorCode(), response.errorMessage()))
+                : just(response.result());
     }
 }

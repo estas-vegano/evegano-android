@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -113,10 +112,10 @@ public class AddProductFragment extends BaseFragment {
     @Bind(R.id.f_add_product_image)
     ImageView productImage;
 
-    @Bind(R.id.f_add_product_title)
+    @Bind(R.id.f_add_product_title_field)
     TextView productTitleLabel;
 
-    @Bind(R.id.f_add_product_producer)
+    @Bind(R.id.f_add_product_producer_field)
     AutoCompleteTextView producerAutoCompleteView;
 
     @Bind(R.id.f_add_product_type_spinner)
@@ -131,6 +130,9 @@ public class AddProductFragment extends BaseFragment {
     @Bind(R.id.f_add_product_image_label)
     TextView productImageLabel;
 
+    @Bind(R.id.f_add_product_image_container)
+    View productImageContainer;
+
     @NonNull
     private ImagePickerHelper imagePickerHelper
             = new ImagePickerHelper(MAX_SIZE, CAMERA_REQUEST_CODE, GALLERY_REQUEST_CODE);
@@ -140,6 +142,10 @@ public class AddProductFragment extends BaseFragment {
 
     @Nullable
     private Category selectedCategory;
+
+    @SuppressWarnings("NullableProblems") // onCreateView
+    @NonNull
+    private ProducerAdapter producerAdapter;
 
     public AddProductFragment() {
         setRetainInstance(true);
@@ -163,7 +169,7 @@ public class AddProductFragment extends BaseFragment {
 
         productTypeSpinner.setAdapter(new ProductTypeArrayAdapter(getActivity()));
 
-        ProducerAdapter producerAdapter = new ProducerAdapter(getActivity(), producerModel, producerProgressBar);
+        producerAdapter = new ProducerAdapter(getActivity(), producerModel, producerProgressBar);
         producerAutoCompleteView.setAdapter(producerAdapter);
         producerAutoCompleteView.setThreshold(0);
 
@@ -313,7 +319,7 @@ public class AddProductFragment extends BaseFragment {
                             hideLoadingDialog();
                             showCategoriesDialog(categories);
                         },
-                        error -> onBaseError(error)
+                        this::onBaseError
                 );
         unsubscribeOnDestroyView(subscription);
     }
@@ -351,7 +357,7 @@ public class AddProductFragment extends BaseFragment {
                                 showCategoriesDialog(new ArrayList<>(result.subCategories()));
                             }
                         },
-                        error -> onBaseError(error)
+                        this::onBaseError
                 );
         unsubscribeOnDestroyView(subscription);
     }

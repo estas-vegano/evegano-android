@@ -16,14 +16,14 @@ public abstract class Photo {
         return new AutoParcel_Photo.Builder();
     }
 
-    @JsonProperty("photo")
+    @JsonProperty("url")
     @NonNull
     public abstract String photo();
 
     @AutoParcel.Builder
     public static abstract class Builder {
 
-        @JsonProperty("photo")
+        @JsonProperty("url")
         @NonNull
         public abstract Builder photo(@NonNull String photo);
 

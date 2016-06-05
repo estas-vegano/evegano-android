@@ -20,6 +20,9 @@ public abstract class Category implements Parcelable {
         return new AutoParcel_Category.Builder();
     }
 
+    @NonNull
+    public abstract Builder toBuilder();
+
     @JsonProperty("id")
     @NonNull
     public abstract long id();
@@ -30,7 +33,7 @@ public abstract class Category implements Parcelable {
 
     @JsonProperty("children")
     @Nullable
-    public abstract List<Category> subCategories();
+    public abstract List subCategories();
 
     @JsonProperty("parent")
     @Nullable
@@ -53,7 +56,7 @@ public abstract class Category implements Parcelable {
 
         @JsonProperty("children")
         @NonNull
-        public abstract Builder subCategories(@Nullable List<Category> subCategory);
+        public abstract Builder subCategories(@Nullable List subCategories);
 
         @JsonProperty("parent")
         @NonNull

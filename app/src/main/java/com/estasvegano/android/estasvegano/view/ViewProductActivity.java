@@ -1,5 +1,6 @@
 package com.estasvegano.android.estasvegano.view;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,9 @@ public class ViewProductActivity extends AppCompatActivity
         intent.putExtra(PRODUCT_EXTRA_KEY, product);
         return intent;
     }
+
+    @Nullable
+    private ProgressDialog loadingDialog;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -80,7 +84,14 @@ public class ViewProductActivity extends AppCompatActivity
     }
 
     @Override
+    public void onComplainStarted() {
+        showLoadingDialog();
+    }
+
+    @Override
     public void onComplainSuccess() {
+        hideLoadingDialog();
+
         new AlertDialog.Builder(this)
                 .setTitle(R.string.succes_dialog_title)
                 .setMessage(R.string.complain_succes_dialog_message)
@@ -91,6 +102,8 @@ public class ViewProductActivity extends AppCompatActivity
 
     @Override
     public void onComplainError(@NonNull Throwable throwable) {
+        hideLoadingDialog();
+
         String message;
         if (throwable instanceof CompositeException) {
             message = ((CompositeException) throwable).getExceptions().get(0).getLocalizedMessage();
@@ -103,5 +116,21 @@ public class ViewProductActivity extends AppCompatActivity
                 .setPositiveButton(android.R.string.ok, null)
                 .create()
                 .show();
+    }
+
+    protected void showLoadingDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            return;
+        }
+        loadingDialog = new ProgressDialog(this);
+        loadingDialog.setMessage(getString(R.string.loading_dialog_message));
+        loadingDialog.show();
+    }
+
+    protected void hideLoadingDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
+        }
     }
 }

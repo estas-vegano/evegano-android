@@ -3,7 +3,7 @@ package com.estasvegano.android.estasvegano;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.estasvegano.android.estasvegano.data.ErrorParser;
+import com.estasvegano.android.estasvegano.data.web.ErrorParser;
 import com.squareup.picasso.Picasso;
 
 import dagger.Module;

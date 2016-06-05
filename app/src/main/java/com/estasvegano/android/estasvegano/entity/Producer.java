@@ -21,6 +21,7 @@ public abstract class Producer implements Parcelable {
     public abstract long id();
 
     @JsonProperty("title")
+    @NonNull
     public abstract String title();
 
     @JsonProperty("ethical")
@@ -31,12 +32,15 @@ public abstract class Producer implements Parcelable {
     public static abstract class Builder {
 
         @JsonProperty("id")
+        @NonNull
         public abstract Builder id(long id);
 
         @JsonProperty("title")
+        @NonNull
         public abstract Builder title(@NonNull String title);
 
         @JsonProperty("ethical")
+        @NonNull
         public abstract Builder ethical(@Nullable Boolean ethical);
 
         @NonNull

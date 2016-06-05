@@ -14,6 +14,7 @@
     <string name="permision_denied_dialog_positive">Ok, I will add it</string>
     <string name="permision_rationale_dialog_message">Please, add it</string>
     <string name="error_dialog_title">Error</string>
+    <string name="error_dialog_message">Something went wrong</string>
     <string name="view_product_complain_button">Complain</string>
     <string name="complain_product_dialog_title">Please, describe what is wrong with this product.</string>
     <string name="loading_dialog_message">Please, wait…</string>

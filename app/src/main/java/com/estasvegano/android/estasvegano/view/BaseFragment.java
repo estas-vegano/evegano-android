@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 
 import com.estasvegano.android.estasvegano.EVeganoApplication;
 import com.estasvegano.android.estasvegano.R;
+import com.estasvegano.android.estasvegano.data.web.ApiException;
 
 import rx.Subscription;
-import rx.exceptions.CompositeException;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
+
+import static android.text.Html.fromHtml;
 
 public class BaseFragment extends Fragment {
 
@@ -65,11 +67,11 @@ public class BaseFragment extends Fragment {
 
         hideLoadingDialog();
 
-        String message;
-        if (throwable instanceof CompositeException) {
-            message = ((CompositeException) throwable).getExceptions().get(0).getLocalizedMessage();
+        CharSequence message;
+        if (throwable instanceof ApiException) {
+            message = fromHtml(getString(R.string.error_dialog_message) + "\n" + "<tt>" + throwable.getMessage() + "</tt>");
         } else {
-            message = throwable.getLocalizedMessage();
+            message = getString(R.string.error_dialog_message);
         }
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.error_dialog_title)
