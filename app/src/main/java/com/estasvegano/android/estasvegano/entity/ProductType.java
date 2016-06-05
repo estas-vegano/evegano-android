@@ -12,5 +12,7 @@ public enum ProductType {
     @JsonProperty("fish")
     FISH,
     @JsonProperty("meat")
-    MEAT;
+    MEAT,
+    @JsonProperty("unknown")
+    UNKNOWN
 }

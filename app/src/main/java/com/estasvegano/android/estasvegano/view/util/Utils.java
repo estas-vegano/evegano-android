@@ -23,6 +23,8 @@ public class Utils {
                 return R.drawable.type_fish;
             case MEAT:
                 return R.drawable.type_meat;
+            case UNKNOWN:
+                return R.drawable.ethical_unknown;
             default:
                 throw new IllegalArgumentException("Invalid product type: " + productType);
         }
