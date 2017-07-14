@@ -1,6 +1,7 @@
 package com.estasvegano.android.estasvegano.view.util;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -83,19 +84,25 @@ public class ImagePickerHelper {
                 setMessage(R.string.choose_image_dialog_message).
                 setPositiveButton(
                         R.string.choose_image_dialog_camera,
-                        (dialog, which) -> {
-                            final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
-                            fragment.startActivityForResult(intent, cameraRequestCode);
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, ImagePickerHelper.this.getImageUri());
+                                fragment.startActivityForResult(intent, cameraRequestCode);
+                            }
                         }
                 )
                 .setNegativeButton(
                         R.string.choose_image_dialog_gallery,
-                        (dialog, which) -> {
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            fragment.startActivityForResult(Intent.createChooser(intent, ""), galleryRequestCode);
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent();
+                                intent.setType("image/*");
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                fragment.startActivityForResult(Intent.createChooser(intent, ""), galleryRequestCode);
+                            }
                         }
                 )
                 .create().show();

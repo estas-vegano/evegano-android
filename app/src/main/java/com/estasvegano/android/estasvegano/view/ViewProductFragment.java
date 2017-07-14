@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.entity.Product;
 import com.estasvegano.android.estasvegano.view.util.PicassoCircleBorderTransform;
+import com.estasvegano.android.estasvegano.view.util.Utils;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
@@ -21,12 +22,9 @@ import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.estasvegano.android.estasvegano.view.util.Utils.getEthicalImage;
-import static com.estasvegano.android.estasvegano.view.util.Utils.getTypeImage;
 
 @FragmentWithArgs
 public class ViewProductFragment extends BaseFragment {
@@ -34,16 +32,16 @@ public class ViewProductFragment extends BaseFragment {
     @Inject
     Picasso picasso;
 
-    @Bind(R.id.f_view_product_toolbar)
+    @BindView(R.id.f_view_product_toolbar)
     Toolbar toolbar;
 
-    @Bind(R.id.f_view_product_image)
+    @BindView(R.id.f_view_product_image)
     ImageView productImageView;
 
-    @Bind(R.id.f_view_product_type_image)
+    @BindView(R.id.f_view_product_type_image)
     ImageView productTypeImageView;
 
-    @Bind(R.id.f_view_product_ethical_image)
+    @BindView(R.id.f_view_product_ethical_image)
     ImageView productEthicalImageView;
 
     @SuppressWarnings("NullableProblems") // @Arg
@@ -83,23 +81,17 @@ public class ViewProductFragment extends BaseFragment {
         return v;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
     private void bindProduct() {
-        setTitle(product.title());
+        setTitle(product.getTitle());
         loadAvatar();
-        productTypeImageView.setImageResource(getTypeImage(product.info()));
-        productEthicalImageView.setImageResource(getEthicalImage(product.producer().ethical()));
+        productTypeImageView.setImageResource(Utils.INSTANCE.getTypeImage(product.getInfo()));
+        productEthicalImageView.setImageResource(Utils.INSTANCE.getEthicalImage(product.getProducer().getEthical()));
     }
 
     private void loadAvatar() {
         int borderColor = ContextCompat.getColor(getActivity(), R.color.accent);
         int borderWidth = getResources().getDimensionPixelSize(R.dimen.border_width);
-        picasso.load(product.photo())
+        picasso.load(product.getPhoto())
                 .placeholder(R.drawable.product_placeholder)
                 .transform(new PicassoCircleBorderTransform(borderColor, borderWidth))
                 .into(productImageView);

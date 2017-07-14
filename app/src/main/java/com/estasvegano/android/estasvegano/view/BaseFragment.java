@@ -16,8 +16,8 @@ import com.estasvegano.android.estasvegano.EVeganoApplication;
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.data.web.ApiException;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 import static android.text.Html.fromHtml;
@@ -26,7 +26,7 @@ public class BaseFragment extends Fragment {
 
     @SuppressWarnings("NullableProblems") // onCreate
     @NonNull
-    private CompositeSubscription compositeSubcscription;
+    private CompositeDisposable compositeSubcscription;
 
     @Nullable
     private ProgressDialog loadingDialog;
@@ -34,13 +34,13 @@ public class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        compositeSubcscription = new CompositeSubscription();
+        compositeSubcscription = new CompositeDisposable();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onDestroyView() {
-        compositeSubcscription.unsubscribe();
+        compositeSubcscription.clear();
         super.onDestroyView();
     }
 
@@ -50,7 +50,7 @@ public class BaseFragment extends Fragment {
         supportActionBar.setTitle(title);
     }
 
-    protected void unsubscribeOnDestroyView(Subscription subscription) {
+    protected void unsubscribeOnDestroyView(Disposable subscription) {
         compositeSubcscription.add(subscription);
     }
 

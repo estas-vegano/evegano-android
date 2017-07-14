@@ -2,6 +2,7 @@ package com.estasvegano.android.estasvegano.view.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,12 +20,13 @@ import com.estasvegano.android.estasvegano.model.ProductModel;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import javax.inject.Inject;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @FragmentWithArgs
@@ -67,12 +69,15 @@ public class ComplainProductDialogFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.complain_product_dialog_title)
                 .setView(content)
-                .setPositiveButton(R.string.send, (dialog, which) -> {
-                    String message = messageField.getText().toString();
-                    if (!TextUtils.isEmpty(message)) {
-                        sendComplain(message);
-                    } else {
-                        Timber.i("Not sending empty complain about product: %s", product);
+                .setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String message = messageField.getText().toString();
+                        if (!TextUtils.isEmpty(message)) {
+                            ComplainProductDialogFragment.this.sendComplain(message);
+                        } else {
+                            Timber.i("Not sending empty complain about product: %s", product);
+                        }
                     }
                 })
                 .setNegativeButton(R.string.cancel, null)
@@ -85,9 +90,14 @@ public class ComplainProductDialogFragment extends DialogFragment {
 
         RxTextView.textChanges(messageField)
                 .subscribe(
-                        text -> ((AlertDialog) getDialog())
-                                .getButton(AlertDialog.BUTTON_POSITIVE)
-                                .setEnabled(!TextUtils.isEmpty(text))
+                        new Consumer<CharSequence>() {
+                            @Override
+                            public void accept(CharSequence text) throws Exception {
+                                ((AlertDialog) ComplainProductDialogFragment.this.getDialog())
+                                        .getButton(AlertDialog.BUTTON_POSITIVE)
+                                        .setEnabled(!TextUtils.isEmpty(text));
+                            }
+                        }
                 );
     }
 
@@ -97,18 +107,24 @@ public class ComplainProductDialogFragment extends DialogFragment {
         }
         Timber.i("Sending complain \"%s\" about product: %s", message, product);
         productModel
-                .complain(product.id(), Complain.builder().message(message).build())
+                .complain(product.getId(), new Complain(message))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        result -> {
-                            if (listener != null) {
-                                listener.onComplainSuccess();
+                        new Consumer<Object>() {
+                            @Override
+                            public void accept(Object result) throws Exception {
+                                if (listener != null) {
+                                    listener.onComplainSuccess();
+                                }
                             }
                         },
-                        error -> {
-                            if (listener != null) {
-                                listener.onComplainError(error);
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable error) throws Exception {
+                                if (listener != null) {
+                                    listener.onComplainError(error);
+                                }
                             }
                         }
                 );

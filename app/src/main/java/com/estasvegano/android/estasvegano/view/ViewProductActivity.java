@@ -18,7 +18,7 @@ import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFrag
 import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFragment.ComplainDialogListener;
 import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFragmentBuilder;
 
-import rx.exceptions.CompositeException;
+import io.reactivex.exceptions.CompositeException;
 
 public class ViewProductActivity extends AppCompatActivity
         implements ComplainDialogListener, ViewProductFragmentListener {

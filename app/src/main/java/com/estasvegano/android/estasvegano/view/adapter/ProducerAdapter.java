@@ -35,16 +35,20 @@ public class ProducerAdapter extends ArrayAdapter<String> implements Filterable 
         protected FilterResults performFiltering(@Nullable CharSequence constraint) {
             Timber.i("Filtering for producer: %s", constraint);
 
-            progressBar.post(() -> progressBar.setVisibility(View.VISIBLE));
+            progressBar.post(new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            });
 
             List<Producer> producers = null;
             if (!TextUtils.isEmpty(constraint)) {
                 producers = producerModel
                         .getProducers(constraint.toString())
-                        .toBlocking()
-                        .value();
+                        .blockingGet();
             }
-            producers = producers == null ? new ArrayList<>(0) : producers;
+            producers = producers == null ? new ArrayList<Producer>(0) : producers;
 
             FilterResults filterResults = new FilterResults();
             filterResults.count = producers.size();
@@ -59,7 +63,7 @@ public class ProducerAdapter extends ArrayAdapter<String> implements Filterable 
             progressBar.setVisibility(View.INVISIBLE);
             // noinspection unchecked
             List<Producer> values = (List<Producer>) results.values;
-            items = values == null ? new ArrayList<>(0) : values;
+            items = values == null ? new ArrayList<Producer>(0) : values;
             notifyDataSetChanged();
         }
     };
@@ -81,13 +85,13 @@ public class ProducerAdapter extends ArrayAdapter<String> implements Filterable 
 
     @Override
     public String getItem(int position) {
-        return items.get(position).title();
+        return items.get(position).getTitle();
     }
 
     @Nullable
     public Producer getProducerByTitleIfExists(@NonNull String title) {
         for (Producer p : items) {
-            if (p.title().equals(title)) {
+            if (p.getTitle().equals(title)) {
                 return p;
             }
         }

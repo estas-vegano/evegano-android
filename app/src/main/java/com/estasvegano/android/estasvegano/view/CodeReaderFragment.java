@@ -1,5 +1,6 @@
 package com.estasvegano.android.estasvegano.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,8 +23,12 @@ import com.estasvegano.android.estasvegano.model.ProductModel;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 import permissions.dispatcher.NeedsPermission;
@@ -31,9 +36,6 @@ import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static android.Manifest.permission.CAMERA;
@@ -44,10 +46,10 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
     @Inject
     ProductModel productModel;
 
-    @Bind(R.id.reader_scanner)
+    @BindView(R.id.reader_scanner)
     ZBarScannerView scannerView;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @Nullable
@@ -78,13 +80,6 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
 
         return view;
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -125,36 +120,46 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
                 rawResult.getBarcodeFormat().getName().replace("[^A-Za-z0-9]", "").toUpperCase()
         );
 
-        new Handler().postDelayed(() -> {
-                    if (isAdded()) {
-                        Timber.i("Resume scanning");
-                        scannerView.resumeCameraPreview(this);
-                    }
-                },
+        new Handler().postDelayed(new Runnable() {
+                                      @Override
+                                      public void run() {
+                                          if (CodeReaderFragment.this.isAdded()) {
+                                              Timber.i("Resume scanning");
+                                              scannerView.resumeCameraPreview(CodeReaderFragment.this);
+                                          }
+                                      }
+                                  },
                 3000L);
     }
 
-    private void checkProduct(@NonNull String code, @NonNull String format) {
+    private void checkProduct(@NonNull final String code, @NonNull final String format) {
         showLoadingDialog();
-        Subscription subscription = productModel.checkCode(code, format)
+        Disposable subscription;
+        subscription = productModel.checkCode(code, format)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(product -> {
-                            hideLoadingDialog();
-                            Timber.i("Product loaded: %s", product);
-                            if (listener != null) {
-                                listener.onProductLoaded(product);
-                            }
-                        },
-                        (error) -> {
-                            if (error instanceof ApiException
-                                    && ((ApiException) error).getErrorCode() == ErrorCode.PRODUCT_NOT_FOUND) {
-                                hideLoadingDialog();
-                                if (listener != null) {
-                                    listener.onNoSuchProduct(code, format);
+                .subscribe(new Consumer<Product>() {
+                               @Override
+                               public void accept(Product product) throws Exception {
+                                   CodeReaderFragment.this.hideLoadingDialog();
+                                   Timber.i("Product loaded: %s", product);
+                                   if (listener != null) {
+                                       listener.onProductLoaded(product);
+                                   }
+                               }
+                           },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable error) throws Exception {
+                                if (error instanceof ApiException
+                                        && ((ApiException) error).getErrorCode() == ErrorCode.PRODUCT_NOT_FOUND) {
+                                    CodeReaderFragment.this.hideLoadingDialog();
+                                    if (listener != null) {
+                                        listener.onNoSuchProduct(code, format);
+                                    }
+                                } else {
+                                    CodeReaderFragment.this.onBaseError(error);
                                 }
-                            } else {
-                                onBaseError(error);
                             }
                         }
                 );
@@ -167,18 +172,29 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
 
     //region permissions
     @OnShowRationale(CAMERA)
-    void onShowPermissionRationale(@NonNull PermissionRequest permissionRequest) {
+    void onShowPermissionRationale(@NonNull final PermissionRequest permissionRequest) {
         cameraPermissionDialogShowing = true;
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.permision_camera_rationale_dialog_title)
                 .setMessage(R.string.permision_rationale_dialog_message)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    permissionRequest.proceed();
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        permissionRequest.proceed();
+                    }
                 })
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                    permissionRequest.cancel();
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        permissionRequest.cancel();
+                    }
                 })
-                .setOnDismissListener(dialog -> cameraPermissionDialogShowing = false)
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        cameraPermissionDialogShowing = false;
+                    }
+                })
                 .create()
                 .show();
     }
@@ -190,10 +206,18 @@ public class CodeReaderFragment extends BaseFragment implements ZBarScannerView.
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.permision_denied_dialog_title)
                 .setMessage(R.string.permision_camera_denied_dialog_message)
-                .setPositiveButton(R.string.permision_denied_dialog_positive, (dialog, which) -> {
-                    goToPermissionSettings();
+                .setPositiveButton(R.string.permision_denied_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CodeReaderFragment.this.goToPermissionSettings();
+                    }
                 })
-                .setOnDismissListener(dialog -> cameraPermissionDialogShowing = false)
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        cameraPermissionDialogShowing = false;
+                    }
+                })
                 .create()
                 .show();
     }

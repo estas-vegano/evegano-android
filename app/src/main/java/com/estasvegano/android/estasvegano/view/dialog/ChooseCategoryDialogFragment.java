@@ -2,6 +2,7 @@ package com.estasvegano.android.estasvegano.view.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,15 +42,18 @@ public class ChooseCategoryDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String[] categoriesArray = new String[categories.size()];
         for (int i = 0; i < categoriesArray.length; i++) {
-            categoriesArray[i] = categories.get(i).title();
+            categoriesArray[i] = categories.get(i).getTitle();
         }
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.choose_category_dialog_title)
                 .setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, categoriesArray),
-                        (dialog, which) -> {
-                            if (listener != null) {
-                                listener.categorySelected(which);
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (listener != null) {
+                                    listener.categorySelected(which);
+                                }
                             }
                         }
                 )

@@ -12,12 +12,10 @@ import android.widget.TextView;
 
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.entity.ProductType;
+import com.estasvegano.android.estasvegano.view.util.Utils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.estasvegano.android.estasvegano.view.util.Utils.getTypeImage;
-import static com.estasvegano.android.estasvegano.view.util.Utils.getTypeTitle;
 
 public class ProductTypeArrayAdapter extends BaseAdapter {
 
@@ -31,13 +29,13 @@ public class ProductTypeArrayAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return ProductType.valuesToShow().length;
+        return ProductType.Companion.valuesToShow().length;
     }
 
     @Override
     @NonNull
     public ProductType getItem(int position) {
-        return ProductType.valuesToShow()[position];
+        return ProductType.Companion.valuesToShow()[position];
     }
 
     @Override
@@ -57,18 +55,18 @@ public class ProductTypeArrayAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.textView.setText(getTypeTitle(getItem(position)));
-        holder.imageView.setImageResource(getTypeImage(getItem(position)));
+        holder.textView.setText(Utils.INSTANCE.getTypeTitle(getItem(position)));
+        holder.imageView.setImageResource(Utils.INSTANCE.getTypeImage(getItem(position)));
 
         return convertView;
     }
 
     static class ViewHolder {
 
-        @Bind(R.id.item_product_type_image)
+        @BindView(R.id.item_product_type_image)
         ImageView imageView;
 
-        @Bind(R.id.item_product_type_title)
+        @BindView(R.id.item_product_type_title)
         TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
