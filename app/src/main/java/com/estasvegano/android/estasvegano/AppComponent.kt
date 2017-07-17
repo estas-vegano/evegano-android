@@ -2,10 +2,10 @@ package com.estasvegano.android.estasvegano
 
 import com.estasvegano.android.estasvegano.data.DataModule
 import com.estasvegano.android.estasvegano.model.ModelModule
-import com.estasvegano.android.estasvegano.view.AddProductFragment
-import com.estasvegano.android.estasvegano.view.CodeReaderFragment
-import com.estasvegano.android.estasvegano.view.ViewProductFragment
-import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFragment
+import com.estasvegano.android.estasvegano.ui.AddProductFragment
+import com.estasvegano.android.estasvegano.ui.CodeReaderFragment
+import com.estasvegano.android.estasvegano.ui.ViewProductFragment
+import com.estasvegano.android.estasvegano.ui.dialog.ComplainProductDialogFragment
 import dagger.Component
 import javax.inject.Singleton
 

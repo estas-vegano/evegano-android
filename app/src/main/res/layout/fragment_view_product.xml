@@ -5,7 +5,7 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:orientation="vertical"
-                                                 tools:context=".view.ViewProductActivity">
+                                                 tools:context=".ui.ViewProductActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/f_view_product_appbar"

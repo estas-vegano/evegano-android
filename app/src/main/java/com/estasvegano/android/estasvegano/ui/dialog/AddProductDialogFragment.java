@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view.dialog;
+package com.estasvegano.android.estasvegano.ui.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 
 import com.estasvegano.android.estasvegano.R;
-import com.estasvegano.android.estasvegano.view.AddProductActivity;
+import com.estasvegano.android.estasvegano.ui.AddProductActivity;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;

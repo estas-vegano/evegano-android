@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view.widget
+package com.estasvegano.android.estasvegano.ui.widget
 
 import android.annotation.TargetApi
 import android.content.Context

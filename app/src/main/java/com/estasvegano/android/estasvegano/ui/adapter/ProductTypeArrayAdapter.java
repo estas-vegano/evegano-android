@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view.adapter;
+package com.estasvegano.android.estasvegano.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.entity.ProductType;
-import com.estasvegano.android.estasvegano.view.util.Utils;
+import com.estasvegano.android.estasvegano.ui.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

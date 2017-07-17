@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view;
+package com.estasvegano.android.estasvegano.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,8 +13,8 @@ import android.widget.ImageView;
 
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.entity.Product;
-import com.estasvegano.android.estasvegano.view.util.PicassoCircleBorderTransform;
-import com.estasvegano.android.estasvegano.view.util.Utils;
+import com.estasvegano.android.estasvegano.ui.util.PicassoCircleBorderTransform;
+import com.estasvegano.android.estasvegano.ui.util.Utils;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;

@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view;
+package com.estasvegano.android.estasvegano.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -13,10 +13,10 @@ import android.view.MenuItem;
 
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.entity.Product;
-import com.estasvegano.android.estasvegano.view.ViewProductFragment.ViewProductFragmentListener;
-import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFragment;
-import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFragment.ComplainDialogListener;
-import com.estasvegano.android.estasvegano.view.dialog.ComplainProductDialogFragmentBuilder;
+import com.estasvegano.android.estasvegano.ui.ViewProductFragment.ViewProductFragmentListener;
+import com.estasvegano.android.estasvegano.ui.dialog.ComplainProductDialogFragment;
+import com.estasvegano.android.estasvegano.ui.dialog.ComplainProductDialogFragment.ComplainDialogListener;
+import com.estasvegano.android.estasvegano.ui.dialog.ComplainProductDialogFragmentBuilder;
 
 import io.reactivex.exceptions.CompositeException;
 

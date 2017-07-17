@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view.adapter;
+package com.estasvegano.android.estasvegano.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

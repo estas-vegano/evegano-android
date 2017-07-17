@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view;
+package com.estasvegano.android.estasvegano.ui;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;

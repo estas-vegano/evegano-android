@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view.util
+package com.estasvegano.android.estasvegano.ui.util
 
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes

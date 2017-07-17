@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view;
+package com.estasvegano.android.estasvegano.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.estasvegano.android.estasvegano.R;
 import com.estasvegano.android.estasvegano.entity.Product;
-import com.estasvegano.android.estasvegano.view.dialog.AddProductDialogFragmentBuilder;
+import com.estasvegano.android.estasvegano.ui.dialog.AddProductDialogFragmentBuilder;
 
 import timber.log.Timber;
 

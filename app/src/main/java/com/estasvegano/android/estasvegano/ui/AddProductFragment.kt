@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view
+package com.estasvegano.android.estasvegano.ui
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.TargetApi
@@ -28,11 +28,11 @@ import com.estasvegano.android.estasvegano.entity.ProductType
 import com.estasvegano.android.estasvegano.model.CategoryModel
 import com.estasvegano.android.estasvegano.model.ProducerModel
 import com.estasvegano.android.estasvegano.model.ProductModel
-import com.estasvegano.android.estasvegano.view.adapter.ProducerAdapter
-import com.estasvegano.android.estasvegano.view.adapter.ProductTypeArrayAdapter
-import com.estasvegano.android.estasvegano.view.dialog.ChooseCategoryDialogFragmentBuilder
-import com.estasvegano.android.estasvegano.view.util.ImagePickerHelper
-import com.estasvegano.android.estasvegano.view.util.PicassoCircleBorderTransform
+import com.estasvegano.android.estasvegano.ui.adapter.ProducerAdapter
+import com.estasvegano.android.estasvegano.ui.adapter.ProductTypeArrayAdapter
+import com.estasvegano.android.estasvegano.ui.dialog.ChooseCategoryDialogFragmentBuilder
+import com.estasvegano.android.estasvegano.ui.util.ImagePickerHelper
+import com.estasvegano.android.estasvegano.ui.util.PicassoCircleBorderTransform
 import com.hannesdorfmann.fragmentargs.FragmentArgs
 import com.hannesdorfmann.fragmentargs.annotation.Arg
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs

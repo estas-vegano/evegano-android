@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view
+package com.estasvegano.android.estasvegano.ui
 
 import android.content.Context
 import android.content.Intent

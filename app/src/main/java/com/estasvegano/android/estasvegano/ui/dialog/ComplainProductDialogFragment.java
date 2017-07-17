@@ -1,4 +1,4 @@
-package com.estasvegano.android.estasvegano.view.dialog;
+package com.estasvegano.android.estasvegano.ui.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
