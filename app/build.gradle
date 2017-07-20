@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: "de.mannodermaus.android-junit5"
 
 android {
     compileSdkVersion 25
@@ -25,6 +26,11 @@ android {
     }
 }
 
+junitPlatform {
+    jupiterVersion '5.0.0-M3'
+    platformVersion '1.0.0-M4'
+}
+
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.22'
@@ -32,7 +38,7 @@ dependencies {
     testCompile 'org.jetbrains.spek:spek-junit-platform-engine:1.1.2'
     testCompile 'org.junit.platform:junit-platform-runner:1.0.0-M4'
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M3'
-
+    testCompile 'org.assertj:assertj-core:3.6.2'
 
     compile 'com.android.support:support-annotations:25.1.1'
     compile 'com.android.support:appcompat-v7:25.1.1'

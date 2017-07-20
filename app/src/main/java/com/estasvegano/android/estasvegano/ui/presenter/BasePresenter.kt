@@ -1,6 +1,7 @@
 package com.estasvegano.android.estasvegano.ui.presenter
 
 import android.support.annotation.CallSuper
+import android.support.annotation.VisibleForTesting
 import com.estasvegano.android.estasvegano.ui.view.View
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -11,11 +12,11 @@ import io.reactivex.subjects.Subject
 
 open class BasePresenter<V : View<VM>, VM>(initialState: VM) {
 
-    val stateSubject: BehaviorSubject<VM> = BehaviorSubject.createDefault(initialState)
+    private val stateSubject: BehaviorSubject<VM> = BehaviorSubject.createDefault(initialState)
 
-    val unbindViewDisposables: CompositeDisposable = CompositeDisposable()
+    private val unbindViewDisposables: CompositeDisposable = CompositeDisposable()
 
-    var view: V? = null
+    private var view: V? = null
 
     @CallSuper
     open fun bindView(view: V) {
@@ -40,25 +41,35 @@ open class BasePresenter<V : View<VM>, VM>(initialState: VM) {
         unbindViewDisposables.clear()
     }
 
-    protected fun subscribeViewState(observable: Observable<VM>) {
+    @VisibleForTesting
+    fun subscribeViewState(observable: Observable<VM>) {
+        if (view == null) {
+            throw IllegalStateException("Should be called after bindView")
+        }
+
         unsubscribeOnUnbindView(observable.delegateToSubject(stateSubject))
     }
 
-    protected fun <T> safeWrap(viewObservable: Observable<T>): Observable<T> {
+    @VisibleForTesting
+    fun <T> safeWrap(viewObservable: Observable<T>): Observable<T> {
+        if (view == null) {
+            throw IllegalStateException("Should be called after bindView")
+        }
+
         val subject = PublishSubject.create<T>()
         unsubscribeOnUnbindView(viewObservable.delegateToSubject(subject))
         return subject
     }
 
-    protected fun unsubscribeOnUnbindView(disposable: Disposable) {
+    private fun unsubscribeOnUnbindView(disposable: Disposable) {
         unbindViewDisposables.add(disposable)
     }
 }
 
 private fun <T> Observable<T>.delegateToSubject(subject: Subject<T>) =
         subscribe(
-                subject::onNext,
-                subject::onError,
-                subject::onComplete,
-                subject::onSubscribe
+                { subject.onNext(it) },
+                { subject.onError(it) },
+                { subject.onComplete() },
+                { subject.onSubscribe(it) }
         )

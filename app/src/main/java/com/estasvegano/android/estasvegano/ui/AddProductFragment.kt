@@ -272,7 +272,7 @@ class AddProductFragment : BaseFragment() {
                         },
                         { this.onBaseError(it) }
                 )
-        unsubscribeOnDestroyView(subscription)
+//        unsubscribeOnDestroyView(subscription)
     }
 
     private fun showCategoriesDialog(categories: List<Category>) {
@@ -307,7 +307,7 @@ class AddProductFragment : BaseFragment() {
                         },
                          { this.onBaseError(it) }
                 )
-        unsubscribeOnDestroyView(subscription)
+//        unsubscribeOnDestroyView(subscription)
     }
     //endregion
 
