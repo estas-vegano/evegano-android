@@ -18,10 +18,8 @@ import android.view.ViewGroup
 import com.estasvegano.android.estasvegano.R
 import com.estasvegano.android.estasvegano.entity.Product
 import com.estasvegano.android.estasvegano.model.ProductModel
-import com.estasvegano.android.estasvegano.ui.dialog.AddProductDialogFragmentBuilder
 import com.estasvegano.android.estasvegano.ui.presenter.CodeReaderPresenter
 import com.estasvegano.android.estasvegano.ui.util.assertActivityImplementsInterface
-import com.estasvegano.android.estasvegano.ui.util.findOrThrow
 import com.estasvegano.android.estasvegano.ui.util.lazyView
 import com.estasvegano.android.estasvegano.ui.view.CodeReaderView
 import com.estasvegano.android.estasvegano.ui.viewmodels.CodeInfo

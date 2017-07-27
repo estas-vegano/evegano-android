@@ -6,12 +6,12 @@ import android.os.Parcelable
 data class Category(
         val id: Long,
         val title: String,
-        val subCategories: List<Category>?,
-        val parent: Category?
+        val subCategories: List<Category> = emptyList(),
+        val parent: Category? = null
 ) : Parcelable {
 
     val isLowLevel: Boolean
-        get() = subCategories?.isNotEmpty() ?: true
+        get() = subCategories.isNotEmpty()
 
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Category> = object : Parcelable.Creator<Category> {

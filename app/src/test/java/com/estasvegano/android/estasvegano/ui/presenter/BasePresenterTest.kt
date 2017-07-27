@@ -47,7 +47,7 @@ class BasePresenterTest : Spek({
             }
         }
 
-        group("unbind view") {
+        on("unbind view") {
 
             it("should throw exception if view not bound") {
                 Assertions.assertThatThrownBy { presenter.unBindView(view) }
@@ -68,9 +68,9 @@ class BasePresenterTest : Spek({
             }
         }
 
-        group("safe wrap") {
+        on("safe wrap") {
 
-            var testObservable: Subject<Int> = PublishSubject.create()
+            val testObservable: Subject<Int> = PublishSubject.create()
 
             on("called without view") {
 
@@ -103,7 +103,7 @@ class BasePresenterTest : Spek({
             }
         }
 
-        group("subscribe view state") {
+        on("subscribe view state") {
             var testObservable: Subject<TestViewModel> = PublishSubject.create()
 
             val testModel = TestViewModel()
